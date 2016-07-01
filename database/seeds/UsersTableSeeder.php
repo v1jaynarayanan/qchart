@@ -13,9 +13,11 @@ class UsersTableSeeder extends Seeder
     {
     
         \App\Role::create([
+            'id' => 0,
             'title' => 'Administrator'
         ]);
         \App\Role::create([
+            'id' => 1,
             'title' => 'User'
         ]);
 
@@ -23,7 +25,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin User 1',
             'email' => 'admin1@admin.com',
             'password' => bcrypt('admin123'),
-            'role_id' => 1, 
+            'role_id' => 0, 
             'confirmed' => false,
             'admin' => 0,
         ]);
@@ -33,7 +35,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Normal User 1',
             'email' => 'user1@user.com',
             'password' => bcrypt('user123'),
-            'role_id' => 2, 
+            'role_id' => 1, 
             'confirmed' => false,
             'admin' => 1,
         ]);
@@ -42,7 +44,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Normal User 2',
             'email' => 'user2@user.com',
             'password' => bcrypt('user123'),
-            'role_id' => 2,
+            'role_id' => 1,
             'confirmed' => false,
             'admin' => 1,
         ]);        
@@ -51,7 +53,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Normal User 3',
             'email' => 'user3@user.com',
             'password' => bcrypt('user123'),
-            'role_id' => 2,
+            'role_id' => 1,
             'confirmed' => false,
             'admin' => 1,
         ]);        

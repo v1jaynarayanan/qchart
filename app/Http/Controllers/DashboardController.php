@@ -13,7 +13,7 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function displayDash()
+    public function display()
     {
     	return view('dashboard');
     }

@@ -101,7 +101,7 @@ class AuthController extends Controller
     public function authenticateEmail($token)
     {     
         $emailLogin = EmailLogin::validFromToken($token);
-        $upd = EmailLogin::updateUserStatus($token);
+        $upd = EmailLogin::updateUserStatus($emailLogin->user->email);
 
         Auth::login($emailLogin->user);
 
@@ -116,12 +116,14 @@ class AuthController extends Controller
      * @return User
      */
     protected function create(array $data)
-    {
-        
+    { 
         return User::create([
+            'role_id' => 0, 
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'confirmed' => false,
+            'admin' => 0,
         ]);
     }
 }

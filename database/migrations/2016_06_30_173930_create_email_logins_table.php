@@ -16,7 +16,6 @@ class CreateEmailLoginsTable extends Migration
             $table->increments('id');
             $table->string('email')->index();
             $table->string('token')->index();
-            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }

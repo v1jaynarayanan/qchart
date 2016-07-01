@@ -38,9 +38,10 @@ class EmailLogin extends Model
             ->firstOrFail();
     }
 
-    public static function updateUserStatus($token)
+    public static function updateUserStatus($email)
     {
-        return DB::table('email_logins')->where('token', $token)->update('confirmed',1);
+        return User::where('email', $email)
+            ->update(['confirmed' => true]);
     }
 
     public static function deleteOldTokens($email)
