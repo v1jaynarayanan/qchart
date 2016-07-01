@@ -49,9 +49,9 @@ class SurveyController extends Controller
 		//db query to get all answers for a particular survey
 		
 		$questColl = collect(DB::select('SELECT GROUP_CONCAT(`SQ`.`id`) AS `qid` FROM `survey_questions` AS `SQ` 
-		WHERE `SQ`.`survey_id` = (SELECT `SU`.`id` FROM `survey` AS `SU`)'));
+		WHERE `SQ`.`survey_id` in (SELECT `SU`.`id` FROM `survey` AS `SU`)'));
 
-		$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `role_id` != 1'));
+		$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `role_id` != 0'));
 		$labelsArr = $sgraphDataset = array();
 		foreach($userColl as $ukey=>$value){
 			$colourArr = array("rgba(179,181,198,0.2)", "rgba(134,194,75,0.2)", "rgba(0,255,0,0.2)");

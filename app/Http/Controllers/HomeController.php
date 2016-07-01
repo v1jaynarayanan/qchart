@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Survey;
+use Auth;
+use Log;
+use DB;
 
 class HomeController extends Controller
 {
@@ -25,11 +28,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $surveys = $this->getSurveysCreatedByUser();
+        
+        return view('dashboard')->with('surveys', $surveys);
     }
 
-    protected function getSurveys()
+    protected function getSurveysCreatedByUser()
     {
-        //$survey = Survey::where()
+        //return Survey::where('user_id', Auth::user()->id);
+        return DB::select('SELECT title, status, created_at, updated_at FROM Survey WHERE user_id = :id', ['id' => Auth::user()->id]);
     }
 }
