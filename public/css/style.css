@@ -1,0 +1,64 @@
+/* Reset CSS */ 
+html, body, h1, h2, h3, h4, h5, h6, p, form, ol, ul {
+	margin: 0px;
+	padding: 0px;
+}
+ol, ul {
+	list-style: none;
+}
+img {
+	max-width: 100%;
+	vertical-align: middle;
+}
+input, button {
+	border-radius: 0px;
+	-webkit-appearance:none;
+}
+h1 {
+	font-size: 30px;
+	font-weight: normal;
+	letter-spacing: 1px;
+	line-height: 36px;
+	padding-bottom: 50px;
+	text-transform: uppercase;
+}
+/* Common CSS */
+body {
+	background-color:#22313f;
+	color: #fff;
+	font-family: 'Yanone Kaffeesatz', sans-serif;
+	font-size: 14px;
+	line-height: 24px;
+}
+.text-center {
+	text-align: center;
+}
+
+/* Site CSS */
+.container {
+	margin: 0 auto;
+	padding-left:15px;
+	padding-right: 15px;
+	position: relative;
+	max-width: 960px;
+}
+.graph-container {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+#chartHolder {
+	margin: 0 auto;
+	max-width: 450px;
+	position: relative;
+}
+/* Chart legend */
+#legend {position: absolute; right: -100px; top:20px; font-size: 16px; text-align: left;}
+.radar-legend span {display: inline-block; margin-right: 10px; width: 15px; height: 15px; position: relative; top: 2px; border-radius: 2px;}
+.radar-legend li {margin-bottom: 5px;}
+
+/* Responsive */
+@media (max-width: 700px) {
+	h1 {padding-bottom: 30px;}
+	#legend {margin: 0 auto; position: static; top: 0px; padding-top: 20px; text-align: center; width: 200px;}
+	#legend ul {display: inline-block; text-align: left;}
+}
