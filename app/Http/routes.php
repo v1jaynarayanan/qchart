@@ -24,6 +24,4 @@ Route::get('auth/email-authenticate/{token}', [
     'uses' => 'Auth\AuthController@authenticateEmail'
 ]);
 
-Route::get('/showDashboard', 'DashboardController@display');
-
 Route::get('/graph', 'SurveyController@draw');

@@ -12,6 +12,7 @@ use App\EmailLogin;
 use Mail;
 use Auth;
 use App\Http\Controllers\Auth\Exception;
+use Log;
 
 class AuthController extends Controller
 {
@@ -33,7 +34,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new authentication controller instance.
@@ -70,7 +71,6 @@ class AuthController extends Controller
             );
         }
 
-        //Auth::guard($this->getGuard())->login($this->create($request->all()));
         $user = $this->create($request->all());
         $status = $this->sendRegistrationEmail($request);    
         return view('auth.registration_confirmation');
@@ -103,10 +103,9 @@ class AuthController extends Controller
         $emailLogin = EmailLogin::validFromToken($token);
         $upd = EmailLogin::updateUserStatus($emailLogin->user->email);
 
-        Auth::login($emailLogin->user);
+        $auth = Auth::loginUsingId($emailLogin->user->id);
 
-        return redirect('/showDashboard');
-
+        return redirect('/home');
     }   
 
     /**

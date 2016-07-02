@@ -10,31 +10,71 @@ img {
 	max-width: 100%;
 	vertical-align: middle;
 }
+a {
+	color: #515151;
+	text-decoration: none;
+}
 input, button {
 	border-radius: 0px;
 	-webkit-appearance:none;
+}
+.clearfix:after {
+	clear: both;
+	display: block;
+	visibility: hidden;
+	content: '';
+	font-size: 0px;
+	height: 0px;
 }
 h1 {
 	font-size: 30px;
 	font-weight: normal;
 	letter-spacing: 1px;
 	line-height: 36px;
-	padding-bottom: 50px;
+	padding-bottom: 30px;
 	text-transform: uppercase;
 }
+h3 {
+	font-size: 20px;
+	padding-bottom: 15px;
+}
+.fR {float: right;}
+.fL {float: left;}
+.clear {clear: both;}
+.text-right {text-align: right;}
 /* Common CSS */
 body {
-	background-color:#22313f;
+	background-color:rgba(93,121,67,1);
 	color: #fff;
 	font-family: 'Yanone Kaffeesatz', sans-serif;
 	font-size: 14px;
 	line-height: 24px;
+}
+.body-sub {
+	background-color: #f5f5f5;
+	color: #515151;
+	font-family:'Open Sans', sans-serif;
 }
 .text-center {
 	text-align: center;
 }
 
 /* Site CSS */
+header {
+	padding:25px 15px 0px;
+}
+.nav a {
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	-webkit-transition: all 0.3s ease-in;
+	-moz-transition: all 0.3s ease-in;
+	transition: all 0.3s ease-in;
+}
+.nav a:hover {
+	color: #406764;
+}
 .container {
 	margin: 0 auto;
 	padding-left:15px;
@@ -44,7 +84,7 @@ body {
 }
 .graph-container {
 	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-bottom: 30px;
 }
 #chartHolder {
 	margin: 0 auto;
@@ -52,9 +92,235 @@ body {
 	position: relative;
 }
 /* Chart legend */
-#legend {position: absolute; right: -100px; top:20px; font-size: 16px; text-align: left;}
+#legend {position: absolute; right: -100px; top:0px; font-size: 16px; text-align: left;}
 .radar-legend span {display: inline-block; margin-right: 10px; width: 15px; height: 15px; position: relative; top: 2px; border-radius: 2px;}
 .radar-legend li {margin-bottom: 5px;}
+
+/* Subpage styles */
+.sub-header {
+	background-color:#25a79f;
+	padding: 5px 0px;
+}
+.logOut {
+	color: #fff;
+	font-weight: 600;
+	font-size: 20px;
+	padding: 21px 0px;
+	text-transform: uppercase;
+}
+.sub-page {
+	font-size: 14px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+#loginContainer {
+	font-size: 14px;
+	margin: 0 auto;
+	padding:40px 0px 30px;
+	width: 480px;
+}
+#loginBox {
+	background-color: #fff;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	border-radius: 3px;
+	overflow: hidden;
+	padding: 0;
+}
+#loginBox h3 {
+	background-color: #406764;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 45px;
+	padding: 15px 20px;
+	text-transform: uppercase;
+}
+.btn {
+	background-color: #406764;
+	border:none;
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 10px 25px;
+	text-transform: uppercase;
+}
+#loginBtn {
+	padding: 12px 35px;
+}
+.btn[disabled], .btn[disabled]:hover {
+	background-color: #ccc;
+	cursor: default;
+}
+.btn:hover {
+	background-color:#25a79f;
+}
+.survey-btn {
+	margin-bottom: 20px;
+}
+.newUser {
+	background-color: #406764;
+	color: #fff;
+	padding: 10px 20px;
+	text-align: center;
+}
+.newUser a {
+	color: #fff;
+	text-decoration: underline;
+}
+.newUser a:hover {
+	text-decoration: none;
+}
+.group { 
+  position:relative;
+  margin: 0px 20px 40px;
+}
+
+.inputMaterial 				{
+  font-size:14px;
+  font-family:'Open Sans', sans-serif;
+  padding:10px 0px 10px 0px;
+  display:block;
+  width:100%;
+  border:none;
+  border-bottom:1px solid #8D9C9B;
+}
+
+.inputMaterial:focus 		{ outline:none;}
+
+/* LABEL ======================================= */
+
+.group label 				 {
+  color:#999; 
+  font-size:14px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:0px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+.inputMaterial:focus ~ label, .inputMaterial:valid ~ label 		{
+  top:-16px;
+  font-size:14px;
+  color: #009688;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:100%; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background: #009688; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+.inputMaterial:focus ~ .bar:before, .inputMaterial:focus ~ .bar:after {
+  width:50%;
+}
+
+
+/* active state */
+.inputMaterial:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#406764; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#406764; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#406764; }
+  to 	{ width:0; background:transparent; }
+}
+
+/********* Table starts here ********/
+.table {
+	border:1px solid #CFDAD9;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+	width: 100%;
+}
+.table th {
+	background-color: #fff;
+	font-weight: 600;
+	text-align: left;
+}
+.table th:first-child, .table td:first-child {
+	text-align: center;
+}
+.table th, .table td {
+	padding:8px 15px;
+}
+.table tr {
+	background-color: #fff;
+}
+.table tr:nth-child(odd) {
+	background-color:#f9f9f9;
+}
+.table td, .table th {
+	border:1px solid #CFDAD9;
+}
+.table th {
+	border-bottom-width:2px;
+}
+.delete-btn {
+	background-color: #406764;
+    border-color: #D81B60;
+	padding: 2px 12px;
+}
+/********* Table ends here ********/
+
+/******* Pagination starts here *******/
+.pagination li {
+	float: left;
+}
+.pagination a {
+	background-color: #fff;
+	border:1px solid #eee;
+	color: #515151;
+	display: block;
+	padding: 3px 5px;
+	text-align: center;
+	min-width: 20px;
+}
+.pagination a:hover, .pagination a.active {
+	border-color: #54abd9;
+}
+.pagination a.active {
+	background-color: #54abd9;
+	color: #fff;
+}
+/******* Pagination ends here *******/
+
+/***** Welcome *****/
+.panel {
+	padding: 20px;
+}
 
 /* Responsive */
 @media (max-width: 700px) {

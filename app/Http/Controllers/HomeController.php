@@ -28,14 +28,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $surveys = $this->getSurveysCreatedByUser();
-        
-        return view('dashboard')->with('surveys', $surveys);
+        if (Auth::check()){
+            LOG::info('user not null. show dash');
+            $user = Auth::user();
+            LOG::info($user);
+            $surveys = $this->getSurveysCreatedByUser();  
+            return view('dashboard')->with('surveys', $surveys);     
+        }
     }
 
     protected function getSurveysCreatedByUser()
     {
-        //return Survey::where('user_id', Auth::user()->id);
         return DB::select('SELECT title, status, created_at, updated_at FROM Survey WHERE user_id = :id', ['id' => Auth::user()->id]);
     }
 }
