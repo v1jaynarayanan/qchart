@@ -98,9 +98,12 @@ header {
 
 /* Subpage styles */
 .sub-header {
-	background-color:#25a79f;
-	padding: 5px 0px;
+	background-color:#9ed070;
+	padding:0px;
 }
+.sub-header .col-md-3 {padding-top: 5px;}
+.sub-header .col-md-3 img {margin-left: -25px;}
+.navbar-nav>li>a {padding-top: 21px; padding-bottom: 21px;}
 .logOut {
 	color: #fff;
 	font-weight: 600;
@@ -138,6 +141,7 @@ header {
 .btn {
 	background-color: #406764;
 	border:none;
+	border-radius: 0px;
 	display: inline-block;
 	cursor: pointer;
 	color: #fff;
@@ -155,6 +159,7 @@ header {
 }
 .btn:hover {
 	background-color:#25a79f;
+	color: #fff;
 }
 .survey-btn {
 	margin-bottom: 20px;
@@ -291,7 +296,7 @@ header {
 .delete-btn {
 	background-color: #406764;
     border-color: #D81B60;
-	padding: 2px 12px;
+	padding: 4px 12px;
 }
 /********* Table ends here ********/
 
@@ -321,10 +326,42 @@ header {
 .panel {
 	padding: 20px;
 }
+.common-list li {
+	position: relative;
+	padding:0px 0px 10px 20px;
+}
+.common-list li:before {
+	background-color: #25a79f;
+	border-radius: 100%;
+	content: "";
+	position: absolute;
+	left: 0px;
+	top:10px;
+	width: 5px;
+	height: 5px;
+}
 
 /* Responsive */
 @media (max-width: 700px) {
 	h1 {padding-bottom: 30px;}
 	#legend {margin: 0 auto; position: static; top: 0px; padding-top: 20px; text-align: center; width: 200px;}
 	#legend ul {display: inline-block; text-align: left;}
+}
+@media (max-width: 992px) {
+	.sub-header .col-md-3, .sub-header .col-md-9 {
+		float: left;
+	}
+	.sub-header .col-md-3 {
+		width: 28%;
+		padding-right: 0px;
+	}
+	.sub-header .col-md-9 {
+		width: 72%;
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+}
+@media (max-width: 767px) {
+	.navbar-nav {margin: 0px;}
+	.nav>li {float: left;}
 }
