@@ -29,9 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()){
-            LOG::info('user not null. show dash');
             $user = Auth::user();
-            LOG::info($user);
             $surveys = $this->getSurveysCreatedByUser();  
             return view('dashboard')->with('surveys', $surveys);     
         }
@@ -39,6 +37,6 @@ class HomeController extends Controller
 
     protected function getSurveysCreatedByUser()
     {
-        return DB::select('SELECT title, status, created_at, updated_at FROM Survey WHERE user_id = :id', ['id' => Auth::user()->id]);
+        return DB::select('SELECT s.title, usr.name, s.status, s.created_at, s.updated_at  FROM survey s, users usr WHERE s.user_id = usr.id AND s.user_id = :id', ['id' => Auth::user()->id]);
     }
 }

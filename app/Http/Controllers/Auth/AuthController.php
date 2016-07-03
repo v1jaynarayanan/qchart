@@ -13,6 +13,7 @@ use Mail;
 use Auth;
 use App\Http\Controllers\Auth\Exception;
 use Log;
+use DB;
 
 class AuthController extends Controller
 {
@@ -97,6 +98,17 @@ class AuthController extends Controller
          });
     }
 
+    public function getCredentials(Request $request)
+    {
+        $credentials = $request->only($this->loginUsername(), 'password');
+
+        return array_add($credentials, 'confirmed', '1');
+    }
+
+    protected function getUserStatus($emailId)
+    {
+        return DB::select('SELECT usr.confirmed FROM users usr where usr.email = :emailId', ['emailId' => $emailId]);
+    }
 
     public function authenticateEmail($token)
     {     
