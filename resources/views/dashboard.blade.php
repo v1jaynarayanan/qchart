@@ -34,7 +34,10 @@
                 @endif
             </tr>
             @endforeach
-        @endif    
+        @endif   
+
+         {!! $surveys->render() !!}
+        
     </table>
 </div>
 @endsection

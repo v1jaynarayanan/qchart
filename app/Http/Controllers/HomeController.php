@@ -31,12 +31,16 @@ class HomeController extends Controller
         if (Auth::check()){
             $user = Auth::user();
             $surveys = $this->getSurveysCreatedByUser();  
-            return view('dashboard')->with('surveys', $surveys);     
+            return view('dashboard')->with('surveys', $surveys->simplepaginate(5));     
         }
     }
 
     protected function getSurveysCreatedByUser()
     {
-        return DB::select('SELECT s.title, usr.name, s.status, s.created_at, s.updated_at  FROM survey s, users usr WHERE s.user_id = usr.id AND s.user_id = :id', ['id' => Auth::user()->id]);
+        $userId = Auth::user()->id;
+        return $surveys = DB::table('survey')
+                    ->join('users', 'survey.user_id', '=', 'users.id')
+                    ->select('survey.title', 'users.name', 'survey.status', 'survey.created_at', 'survey.updated_at')
+                    ->where('survey.user_id', '=', $userId);
     }
 }
