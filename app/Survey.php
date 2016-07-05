@@ -13,4 +13,13 @@ class Survey extends Model {
      */
     protected $table = 'survey';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'title', 'description','status',
+    ];
+
 }

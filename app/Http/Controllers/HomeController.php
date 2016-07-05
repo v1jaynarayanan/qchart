@@ -29,9 +29,8 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()){
-            $user = Auth::user();
             $surveys = $this->getSurveysCreatedByUser();  
-            return view('dashboard')->with('surveys', $surveys->simplepaginate(5));     
+            return view('dashboard')->with('surveys', $surveys->paginate(5));     
         }
     }
 
