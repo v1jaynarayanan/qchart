@@ -8,6 +8,9 @@
         <a href="#" class="btn survey-btn fR">Add New Survey</a>
         @endif
     </div>
+    <div align="right">   
+        {!! $surveys->render(); !!}
+    </div>        
     <table class="table">
         <tr>
             <th width="30">S.No.</th>
@@ -34,10 +37,10 @@
                 @endif
             </tr>
             @endforeach
-        @endif   
-
-         {!! $surveys->render() !!}
-        
+        @endif        
     </table>
+    <div align="right">   
+        {!! $surveys->render(); !!}
+    </div>
 </div>
 @endsection
