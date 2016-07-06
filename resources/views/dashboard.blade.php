@@ -27,7 +27,7 @@
             @foreach ($surveys as $i => $value) 
             <tr>
                 <td>{{ ++$i }} </td>
-                <td><a href="#">{{ $value->title }}</a></td>
+                <td><a href="{{URL::to('/')}}/details/{{$value->id}}">{{ $value->title }}</a></td>
                 <td>{{ $value->name }}</td>
                 <td>{{ $value->status == 1 ? 'Open' : 'Closed' }}</td>
                 <td>{{ $value->created_at }}</td>

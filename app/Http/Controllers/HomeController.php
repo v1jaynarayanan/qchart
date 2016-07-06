@@ -24,7 +24,6 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -34,12 +33,29 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * Show survey details.
+     *
+     */
+    public function surveyDetails($surveyId)
+    {
+        if (Auth::check()){
+            $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId);  
+            return view('survey_details')->with('surveyDetails', $surveyDetails);     
+        }
+    }
+
     protected function getSurveysCreatedByUser()
     {
         $userId = Auth::user()->id;
         return $surveys = DB::table('survey')
                     ->join('users', 'survey.user_id', '=', 'users.id')
-                    ->select('survey.title', 'users.name', 'survey.status', 'survey.created_at', 'survey.updated_at')
+                    ->select('survey.id', 'survey.title', 'users.name', 'survey.status', 'survey.created_at', 'survey.updated_at')
                     ->where('survey.user_id', '=', $userId);
     }
+
+    protected function getSurveyDetailsForSurvey($surveyId)
+    {
+        return DB::select('SELECT `survey`.`id` AS `survey_id`, `survey`.`title`, `survey`.`description`, `users`.`id`, `users`.`name`, `survey`.`status`, `survey`.`created_at`, `survey`.`updated_at` FROM `survey` AS `survey`, `users` AS `users` WHERE `survey`.`user_id` = `users`.`id` AND `survey`.`id` = '.$surveyId.'');            
+    }   
 }
