@@ -37,4 +37,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Artisan::call('db:seed');
         parent::tearDown();
     }
+
+    public function testRoot(){
+        $this->visit('/')
+             ->see('WELCOME TO QCHART');
+    }
 }

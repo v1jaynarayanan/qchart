@@ -50,7 +50,7 @@ class LoginPageTest extends TestCase
     public function testLoginViaEmailAuthentication(){
 
          $user = factory(App\User::class)->create([
-                    'name' => 'newuser3',
+                    'name' => 'newuser2',
                     'email' => 'newuser2@user.com',
                     'role_id' => 0,
                     'password' => Hash::make('passw0RD'),
