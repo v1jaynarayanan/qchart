@@ -19,9 +19,19 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/details/{surveyId}', [
+	'as' => 'survey.details',  
+	'uses' => 'HomeController@surveyDetails'
+]);
+
 Route::get('auth/email-authenticate/{token}', [
     'as' => 'auth.email-authenticate',
     'uses' => 'Auth\AuthController@authenticateEmail'
+]);
+
+Route::get('/drawGraph/{survey}', [
+	'as' => 'survey.graph',  
+	'uses' => 'SurveyController@drawGraph'
 ]);
 
 Route::get('/graph', 'SurveyController@draw');
