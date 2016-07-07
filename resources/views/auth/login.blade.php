@@ -5,8 +5,13 @@
     <div id="loginContainer">
         <div id="loginBox">
                 <h3>Login</h3>
-                    <form name="myForm" class="form-horizontal" id="loginForm" role="form" method="POST" action="{{ url('/login') }}">
+                        <form name="myForm" class="form-horizontal" id="loginForm" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="group{{ $errors->has('email') ? ' has-error' : '' }}">
                             
                             <input id="email" type="email" class="inputMaterial" name="email" value="{{ old('email') }}" required>
@@ -32,20 +37,9 @@
                                 </span>
                             @endif
                         </div>
-                        <!--    
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        -->
                         <div class="group clearfix">
                             <a class="fL" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            <button type="submit" class="btn fR">
+                            <button id="submitBtn" type="submit" class="btn fR">
                                 <i class="fa fa-btn fa-sign-in"></i> Login
                             </button>
                         </div>

@@ -51,7 +51,7 @@ class SurveyController extends Controller
 		$labelsArr = $sgraphDataset = $ansdata = array();
 		if (empty($labels)){
 			LOG::info('No questions for survey');
-			return Redirect::back()->with('status', 'No questions found for survey. Unable to generate graph.');
+			return Redirect::back()->with('status', 'No questions or answers found for survey. Unable to generate graph.');
 		}
 
 		foreach ($labels as $k=> $lab) {
