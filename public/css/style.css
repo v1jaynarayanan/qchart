@@ -11,7 +11,10 @@ img {
 	vertical-align: middle;
 }
 a {
-	color: #515151;
+	color: #9ed070;
+	text-decoration: none;
+}
+a:hover {
 	text-decoration: none;
 }
 input, button {
@@ -100,10 +103,12 @@ header {
 .sub-header {
 	background-color:#9ed070;
 	padding:0px;
+	position: relative;
+	z-index: 100;
 }
 .sub-header .col-md-3 {padding-top: 5px;}
-.sub-header .col-md-3 img {margin-left: -25px;}
-.navbar-nav>li>a {padding-top: 21px; padding-bottom: 21px;}
+.sub-header .col-md-3 img {margin-left: -43px; width: 150px;}
+.navbar-nav>li>a {padding-top: 38px; padding-bottom: 38px;}
 .logOut {
 	color: #fff;
 	font-weight: 600;
@@ -210,7 +215,7 @@ header {
 }
 
 /* active state */
-.inputMaterial:focus ~ label, .inputMaterial:valid ~ label 		{
+.inputMaterial:focus ~ label, .inputMaterial:valid ~ label, .inputMaterial.invalid-field ~ label 		{
   top:-16px;
   font-size:14px;
   color: #009688;
@@ -340,7 +345,41 @@ header {
 	width: 5px;
 	height: 5px;
 }
-
+.bg-frame {
+	background: url(../images/bridge.jpg) center no-repeat;
+	background-size: cover;
+	position: relative;
+	height: 1px;
+	z-index: 10;
+}
+.bg-frame:before {
+	background-color: #000;
+	opacity: 0.60;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: -1;
+	content: "";
+}
+.table-row {
+	display: table;
+	height: inherit;
+	max-width: 540px;
+	margin: 0 auto;
+}
+.bg-frame .sub-page {
+	display: table-cell;
+	color: #fff;
+	text-align: center;
+	padding:0px 15px;
+	vertical-align: middle;
+}
+.bg-frame .sub-page ul {
+	display: inline-block;
+	text-align: left;
+}
 /* Responsive */
 @media (max-width: 700px) {
 	h1 {padding-bottom: 30px;}
