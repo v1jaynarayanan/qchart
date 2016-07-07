@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\EmailLogin;
 use Mail;
 use Auth;
@@ -62,6 +63,18 @@ class AuthController extends Controller
         ]);
     }
 
+    public function authenticated(Request $request, User $user)
+    {
+        if ($user->confirmed) {
+            return redirect()->intended($this->redirectPath());
+        } else {
+            Auth::logout();
+            //send account verification email
+            $accVerify = $this->sendAccountVerificationEmail($request);
+            return Redirect::back()->with('status', 'Your account is inactive. Please activate by clicking the link sent to you by emai');
+        }
+    }
+
     public function register(Request $request)
     {
         $validator = $this->validator($request->all());
@@ -73,36 +86,33 @@ class AuthController extends Controller
         }
 
         $user = $this->create($request->all());
-        $status = $this->sendRegistrationEmail($request);    
+        $status = $this->sendAccountVerificationEmail($request);    
         return view('auth.registration_confirmation');
     }
 
     /**
-     *  Send registration confirmation email
+     *  Send Account verification email
      *
      */
-    protected function sendRegistrationEmail(Request $request)
+    protected function sendAccountVerificationEmail(Request $request)
     {
+        $email = $request->input('email');
+        // delete any old tokens
+        $oldTokens = EmailLogin::deleteOldTokens($email);
 
-        // send off a registration confirmation email
-        $emailLogin = EmailLogin::createForEmail($request->input('email'));
+        // create new token for email 
+        $emailLogin = EmailLogin::createForEmail($email);
         
-        // show the users a view saying "check your email"
+        // create link to show in the email
         $url = route('auth.email-authenticate', [
             'token' => $emailLogin->token
         ]);
 
+        //send off an account verfication email
         return Mail::send('auth.emails.email-login', ['url' => $url], function ($m) use ($request) {
             $m->from('noreply@qchart.com', 'Qchart');
             $m->to($request->input('email'))->subject('Qchart - activate your account');
          });
-    }
-
-    public function getCredentials(Request $request)
-    {
-        $credentials = $request->only($this->loginUsername(), 'password');
-
-        return array_add($credentials, 'confirmed', '1');
     }
 
     protected function getUserStatus($emailId)
