@@ -23,4 +23,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the Survey Questions for the Survey.
+     */
+    public function surveyquestions()
+    {
+        return $this->hasMany('App\SurveyQuestions');
+    }
 }

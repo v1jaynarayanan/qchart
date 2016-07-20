@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use App\Survey;
 use Auth;
 use Log;
@@ -42,6 +44,40 @@ class HomeController extends Controller
         if (Auth::check()){
             $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId);  
             return view('survey_details')->with('surveyDetails', $surveyDetails);     
+        }
+    }
+
+    /*
+     * Delete one or more surveys
+     *
+     */
+    public function deleteSurvey(Request $request)
+    {
+         $checkBoxes = Input::get('cb');
+         
+         if (Auth::check()){
+             if (isset($checkBoxes)) {
+                 foreach ($checkBoxes as $key => $value) {
+                    $deleteSurvey = Survey::destroy($value);
+                 }
+             } else {
+                return Redirect::back()->with('status', 'You have not selected any survey to delete.');
+             }
+             
+             return redirect('/home');
+         }
+         
+    }
+
+    /**
+     * Show send survey page.
+     *
+     */
+    public function sendSurvey($surveyId)
+    {
+        if (Auth::check()){
+            $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId);  
+            return view('survey_send')->with('surveyDetails', $surveyDetails);     
         }
     }
 
