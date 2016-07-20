@@ -20,10 +20,10 @@
         <form name="dashboardForm" action="{{ url('/deleteSurvey') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
-        <table class="table">
+        <table class="table" id="dashboardTable">
             <tr>
-                <th width="30"></th>
-                <th>S.No.</th>
+                <th width="40">&nbsp;</th>
+                <th width="30">S.No.</th>
                 <th>Survey Title</th>
                 <th>Created By</th>
                 <th>Survey Status</th>
@@ -37,7 +37,8 @@
             @if (isset($surveys) && !empty($surveys))
                 @foreach ($surveys as $i => $value) 
                 <tr>
-                    <td><input type="checkbox" id="cb{{ $value->id }}" name="cb[]" value="{{ $value->id }}" class="checkbox-btn"></td>
+                    <td><div class="checkCol"><input type="checkbox" id="cb{{ $value->id }}" name="cb[]" value="{{ $value->id }}"/> <label class="check-label"><i class="fa fa-square-o" aria-hidden="true"></i></label></div>
+                    </td>
                     <td>{{ ++$i }} </td>
                     <td><a href="{{URL::to('/')}}/details/{{$value->id}}">{{ $value->title }}</a></td>
                     <td>{{ $value->name }}</td>
@@ -45,42 +46,35 @@
                     <td>{{ $value->created_at }}</td>
                     <td>{{ $value->updated_at }}</td>
                     @if (Auth::user()->role_id == 0)
-                        <td><button type="submit" class="btn fR" onclick="return confirm('Are you sure you want to delete this survey?');">Delete</button>
                         @if ($value->status == 1)
-                            <a href="{{URL::to('/')}}/sendSurvey/{{$value->id}}" class="btn survey-btn fR">Send Survey</a>
-                        @endif
-                        </td>
+                         <td><a href="{{URL::to('/')}}/sendSurvey/{{$value->id}}" class="btn">Send Survey</a></td>
+                        @else 
+                         <th width="90">&nbsp;</th>
+                        @endif    
                     @endif
                 </tr>
                 @endforeach
             @endif
-            <tr>
-                <th nowrap>
-                    @if (Auth::user()->role_id == 0)
-                            <a href="#" class="bt  n delete-btn" onClick="CheckAll(document.dashboardForm.cb)">Check all</a>
- 
-                    @endif
-                </th>
-                <th nowrap>
-                    @if (Auth::user()->role_id == 0)
-                            <button type="submit" class="btn fR" onclick="return confirm('Are you sure you want to delete the selected surveys?');">Delete Selected</button>
- 
-                    @endif
-                </th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                @if (Auth::user()->role_id == 0)
-                    <th width="90">&nbsp;</th>
-                @endif
-            </tr>
+            
         </table>
-        <div align="right" nowrap>   
-            {!! $surveys->render(); !!}
+        <div class="clearfix">
+            <div class="fL">
+                <a href="#" class="btn" id="checkAll">Check all</a>
+                <a href="#" class="btn" id="deleteSelected">Delete selected</a>
+            </div>
+            <ul class="pagination fR">
+                {!! $surveys->render(); !!}
+            </ul>
         </div>
-        
+        <div id="popUpOverlay">
+            <div id="popUp">
+            <h4>Are you sure want to delete the selected survey?</h4>
+            <div class="popBtns clearfix">
+                <a href="#" class="btn" id="confirmBtn">Ok</a>
+                <a href="#" class="btn" id="cancelBtn">Cancel</a>
+            </div>
+        </div>
+    </div>
         </form>
 </div>
 

@@ -14,12 +14,11 @@ a {
 	color: #9ed070;
 	text-decoration: none;
 }
-a:hover {
+a:hover, a:focus {
 	text-decoration: none;
 }
 input, button {
 	border-radius: 0px;
-	-webkit-appearance:none;
 }
 .clearfix:after {
 	clear: both;
@@ -41,21 +40,6 @@ h3 {
 	font-size: 20px;
 	padding-bottom: 15px;
 }
-
-h4 {
-	font-size: 16px;
-	padding-bottom: 10px;
-	line-height: 26px;
-	padding-bottom: 20px;
-}
-
-h5 {
-	font-size: 14px;
-	padding-bottom: 12px;
-	line-height: 20px;
-	padding-bottom: 20px;
-}
-
 .fR {float: right;}
 .fL {float: left;}
 .clear {clear: both;}
@@ -178,11 +162,10 @@ header {
 	background-color: #ccc;
 	cursor: default;
 }
-.btn:hover {
+.btn:hover, .btn:focus {
 	background-color:#25a79f;
 	color: #fff;
 }
-
 .survey-btn {
 	margin-bottom: 20px;
 }
@@ -202,11 +185,6 @@ header {
 .group { 
   position:relative;
   margin: 0px 20px 40px;
-}
-
-.groupNoMargin { 
-  position:relative;
-  margin: 0px 0px 0px;
 }
 
 .inputMaterial 				{
@@ -241,30 +219,6 @@ header {
   top:-16px;
   font-size:14px;
   color: #009688;
-}
-
-input[type=checkbox] {
-    display:none;
-}
-
-input[type=checkbox] {
-    content: "";  
-    display: inline-block;  
-    width: 15px;  
-    height: 15px;  
-    vertical-align:middle;
-    margin-right: 8px;  
-    background-color: #fff;  
-    box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .3);
-    border-radius: 4px;  
-}
-
-input[type=checkbox]:checked {
-    color:white;
-    background-color: #406764; 
-    text-align:center;
-    line-height:15px;
-    text-shadow:0px 0px 3px #eee;
 }
 
 /* BOTTOM BARS ================================= */
@@ -315,33 +269,34 @@ input[type=checkbox]:checked {
 }
 
 /********* Table starts here ********/
-.table {
+table.table {
 	border:1px solid #CFDAD9;
 	border-collapse: collapse;
 	margin-bottom: 30px;
 	width: 100%;
 }
-.table th {
+table.table th {
 	background-color: #fff;
 	font-weight: 600;
 	text-align: left;
 }
-.table th:first-child, .table td:first-child {
+table.table th:first-child, table.table td:first-child {
 	text-align: center;
 }
-.table th, .table td {
+table.table th, table.table td {
 	padding:8px 15px;
 }
-.table tr {
+table.table tr {
 	background-color: #fff;
 }
-.table tr:nth-child(odd) {
+table.table tr:nth-child(odd) {
 	background-color:#f9f9f9;
 }
-.table td, .table th {
+table.table td, table.table th {
 	border:1px solid #CFDAD9;
+	line-height: 26px !important;
 }
-.table th {
+table.table th {
 	border-bottom-width:2px;
 }
 .delete-btn {
@@ -349,9 +304,35 @@ input[type=checkbox]:checked {
     border-color: #D81B60;
 	padding: 4px 12px;
 }
+.checkCol {position: relative; width: 18px; height: 18px; margin: 0 auto;}
+#dashboardTable input[type="checkbox"] {
+	opacity: 0;
+	z-index: 2;
+	width: 18px;
+	height: 18px;
+	position: relative;
+	margin: 0px;
+	display: block;
+}
+.check-label {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 18px;
+	margin-bottom: 0px;
+	height: 18px;
+	display: block;
+	z-index: 1;
+	font-size: 18px;
+}
+#dashboardTable input[type="checkbox"]:checked ~ .check-label .fa:before {
+	content: "\f14a";
+	color: #9ed070;
+}
 /********* Table ends here ********/
 
 /******* Pagination starts here *******/
+.pagination {margin: 0px;}
 .pagination li {
 	float: left;
 }
@@ -428,9 +409,76 @@ input[type=checkbox]:checked {
 }
 .error-message {
 	color: #fff;
-	background-color: red;
+	background-color: #b00303;
 	display: block;
-	padding: 2px 5px;
+	font-weight: 500;
+	padding: 5px 10px;
+}
+/* Add new survey */
+.formMainRow {
+	max-width: 500px;
+}
+.form-row {
+	padding-bottom: 20px;
+	position: relative;
+}
+.form-row:last-child {
+	padding-bottom: 0px;
+}
+.form-row label {
+	display: block;
+	padding-bottom:5px;
+	font-size: 16px;
+}
+#addNewQuestionDiv {
+	display: none;
+	margin-bottom: 20px;
+}
+#addNewQuestionDiv a {
+	font-weight: bold;
+}
+#addNewQuestionDiv .fa {
+	font-size: 16px;
+	margin-right: 5px;
+}
+.textBox {
+	background-color:transparent;
+	border:1px solid #ccc;
+	display: block;
+	padding:5px 10px;
+	width: 100%;
+}
+
+/* Custom popup */
+#popUpOverlay {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	z-index: 9999;
+	display: none;
+}
+#popUp {
+	background-color: #fff;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	border-radius: 3px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin: -101px 0px 0px -150px;
+	width: 300px;
+	padding: 20px;
+}
+#popUp h4 {
+	font-weight: bold;
+	font-size: 18px;
+	padding-bottom: 25px;
+}
+.popBtns .btn {
+	margin-right:5px;
+	width: 120px;
 }
 /* Responsive */
 @media (max-width: 700px) {
