@@ -17,7 +17,7 @@ class Survey extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->unsignedInteger('user_id')->nullable()->comment = "created by";
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->string('slug');
             $table->text('description');

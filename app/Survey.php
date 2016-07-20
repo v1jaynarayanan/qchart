@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\SurveyQuestions;
 
 class Survey extends Model {
 	
@@ -22,4 +23,11 @@ class Survey extends Model {
         'user_id', 'title', 'description','status',
     ];
 
+    /**
+     * Get the Survey Questions for the Survey.
+     */
+    public function surveyquestions()
+    {
+        return $this->hasMany('App\SurveyQuestions');
+    }
 }

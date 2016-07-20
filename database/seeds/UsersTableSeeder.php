@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
             'id' => 0,
             'title' => 'Administrator'
         ]);
+        
         \App\Role::create([
             'id' => 1,
             'title' => 'User'

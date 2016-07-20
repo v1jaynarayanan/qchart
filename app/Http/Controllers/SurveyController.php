@@ -2,11 +2,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Survey;
-use Auth;
-use DB;
+use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redirect;
+use App\Survey;
+use App\EmailLogin;
+use Validator;
+use Auth;
+use Mail;
+use DB;
 use Log;
 
 class SurveyController extends Controller
@@ -99,4 +104,83 @@ class SurveyController extends Controller
 
 	}
 	
+	public function sendSurveyEmail(Request $request)
+	{
+		$email = $request->input('email');
+		$surveyId = $request->input('surveyId');
+		
+		$emailIds = explode(',', $email);
+
+		$validator = $this->validator($request->all());
+
+       	if ($validator->fails()) {
+           	return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
+
+       	}
+
+		$authController = new AuthController();
+		
+		foreach ($emailIds as $key => $value) {
+
+			$userStatusArr = $authController->getUserStatus($value);
+
+			$userStatus=null;
+			foreach ($userStatusArr as $skey => $svalue) {
+				$userStatus = $svalue->confirmed;
+			}
+			
+    		LOG::info('User status'.$userStatus);
+			if (!empty($userStatus) && $userStatus == 1) {
+
+				LOG::info('Active User');
+        		$oldTokens = EmailLogin::deleteOldTokens($email);
+				$emailLogin = EmailLogin::createForEmail($email);
+				$url = $this->createLinkForEmail($surveyId, $emailLogin->token, null);	
+
+       			$emailSent = $this->emailRequest($url, $value);
+			}
+			else {
+				
+				$url = $this->createLinkForEmail($surveyId, null, $value);	
+
+       			$emailSent = $this->emailRequest($url, $value);
+			}
+			
+		}
+		return view('survey_email_confirmation');
+	}
+
+	public function createLinkForEmail($surveyId, $token, $email)
+	{
+		if(!empty($token)){
+			return $url = route('activeuser.survey.complete', [
+            		'surveyId' => $surveyId,
+            		'token' => $token,
+        		]);	
+		} else {
+			return $url = route('newuser.survey.complete', [
+       				'surveyId' => $surveyId,
+       				'email' => $email,
+        		]);
+		}
+		
+	}
+
+	public function emailRequest($url, $value)
+	{
+       return Mail::send('email_survey_complete', ['url' => $url], function ($m) use ($value) {
+            	$m->from('noreply@qchart.com', 'QChart');
+            	$m->to($value)->subject('QChart - Please complete survey');
+       	});	
+	}
+
+	protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'email' => 'required|email|max:255'
+        ]);
+    }
+
+	
+
 }

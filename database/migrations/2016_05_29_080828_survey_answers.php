@@ -17,7 +17,7 @@ class SurveyAnswers extends Migration
             $table->unsignedInteger('user_id')->nullable()->comment = "created by";
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->unsignedInteger('survey_quest_id')->nullable()->comment = "Answer belongs to";
-            $table->foreign('survey_quest_id')->references('id')->on('survey_questions')->onDelete('set null');
+            $table->foreign('survey_quest_id')->references('id')->on('survey_questions')->onDelete('cascade');
             $table->unsignedInteger('answer');
             $table->timestamps();
         });

@@ -17,16 +17,16 @@ Route::get('/', function () {
 
 Route::auth();
 
+Route::get('auth/email-authenticate/{token}', [
+    'as' => 'auth.email-authenticate',
+    'uses' => 'Auth\AuthController@authenticateEmail'
+]);
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/details/{surveyId}', [
 	'as' => 'survey.details',  
 	'uses' => 'HomeController@surveyDetails'
-]);
-
-Route::get('auth/email-authenticate/{token}', [
-    'as' => 'auth.email-authenticate',
-    'uses' => 'Auth\AuthController@authenticateEmail'
 ]);
 
 Route::get('/drawGraph/{survey}', [
@@ -35,3 +35,28 @@ Route::get('/drawGraph/{survey}', [
 ]);
 
 Route::get('/graph', 'SurveyController@draw');
+
+Route::delete('/deleteSurvey', [
+  	'as'=> 'survey.delete',
+  	'uses'=> 'HomeController@deleteSurvey'
+]);
+
+Route::get('/sendSurvey/{survey}', [
+	'as' => 'survey.send',  
+	'uses' => 'HomeController@sendSurvey'
+]);
+
+Route::post('/survey/sendEmail', [
+	'as' => 'survey.sendemail',  
+	'uses' => 'SurveyController@sendSurveyEmail'
+]);
+
+Route::get('surveyComplete/{surveyId}/token/{token?}', [
+    'as' => 'activeuser.survey.complete',
+    'uses' => 'Auth\AuthController@activeUserCompleteSurvey'
+]);
+
+Route::get('surveyComplete/{surveyId}/email/{email?}', [
+    'as' => 'newuser.survey.complete',
+    'uses' => 'Auth\AuthController@newUserCompleteSurvey'
+]);
