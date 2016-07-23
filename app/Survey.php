@@ -28,6 +28,6 @@ class Survey extends Model {
      */
     public function surveyquestions()
     {
-        return $this->hasMany('App\SurveyQuestions');
+        return $this->hasMany('App\SurveyQuestions', 'survey_id');
     }
 }

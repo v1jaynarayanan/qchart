@@ -69,7 +69,7 @@ $(function(){
     // Add new survey
     var count = 1, $addNewSurveyBtn = $('#addNewSurvey'), $addNewQuestion = $('#addNewQuestion'), $addNewQuestionDiv = $('#addNewQuestionDiv');
     $addNewQuestion.on('click', function(){
-        var $this = $(this), appendContent = '<div class="form-row"><label class="qnsLabel">New question '+(count+1)+'</label><input type="text" class="textBox" /></div>';
+        var $this = $(this), appendContent = '<div class="form-row"><label class="qnsLabel">New question '+(count+1)+'</label><input type="text" class="textBox" name="question'+(count+1)+'" /></div>';
         $addNewQuestionDiv.hide();
         if(count < 8) {
             $(appendContent).insertBefore($this.parent());
@@ -78,7 +78,7 @@ $(function(){
             $this.hide();
             return false;
         }
-        if(count === 8) {
+        if(count === 7) {
             $this.hide();
         }
         count++;

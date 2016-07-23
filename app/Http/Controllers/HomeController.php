@@ -81,6 +81,15 @@ class HomeController extends Controller
         }
     }
 
+    /*
+     * Display new survey page
+     *
+     */
+    public function showNewSurveyPage()
+    {
+        return view('add_new_survey');
+    }
+
     protected function getSurveysCreatedByUser()
     {
         $userId = Auth::user()->id;
