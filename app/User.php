@@ -25,10 +25,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the Survey Questions for the Survey.
+     * Get the Surveys for the Survey.
      */
-    public function surveyquestions()
+    public function surveys()
     {
-        return $this->hasMany('App\SurveyQuestions');
+        return $this->hasMany('App\Survey');
     }
 }

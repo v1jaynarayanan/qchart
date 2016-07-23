@@ -46,6 +46,8 @@ Route::get('/sendSurvey/{survey}', [
 	'uses' => 'HomeController@sendSurvey'
 ]);
 
+Route::get('/showNewSurveyPage', 'HomeController@showNewSurveyPage');
+
 Route::post('/survey/sendEmail', [
 	'as' => 'survey.sendemail',  
 	'uses' => 'SurveyController@sendSurveyEmail'
@@ -60,3 +62,9 @@ Route::get('surveyComplete/{surveyId}/email/{email?}', [
     'as' => 'newuser.survey.complete',
     'uses' => 'Auth\AuthController@newUserCompleteSurvey'
 ]);
+
+Route::post('/createNewSurvey', [
+  'as' => 'survey.create',  
+  'uses' => 'SurveyController@createNewSurvey'
+]);
+
