@@ -80,11 +80,11 @@ class SurveyController extends Controller
 				//db query to get all answers for a particular survey		
 				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$val->qid.') AND `SA`.`user_id` = '.$value->id.''));
 				
-				if (empty($answersColl)){
+				if (empty($answersColl) || count($answersColl) == 0){
 					LOG::info('No answers for survey');
 					return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
 				}
-	
+
 				foreach($answersColl as $ans){
 					$ansdata[] = $ans->answer;	
 				}
@@ -106,14 +106,18 @@ class SurveyController extends Controller
 					unset($ansdata);	
 				}	
 			}
-		}		
+		}	
+
+		if (empty($answersColl) || count($answersColl) == 0){
+			LOG::info('No answers for survey');
+			return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
+		}
 
 		//creaete aggregated dataset
 		$aggregateData = $this->aggregateData($sgraphDataset);
 		array_push($sgraphDataset, $aggregateData);
 		LOG::info(print_r($sgraphDataset, true));
-
-		//$viewData = array('labels'=>$labelsArr, 'datasets'=>$sgraphDataset);			
+	
 		return view('survey_graph', ['labels'=>$labelsArr, 'datasets'=>$sgraphDataset]);
 
 	}
@@ -125,20 +129,14 @@ class SurveyController extends Controller
 		$q4=0;$q5=0;$q6=0;$q7=0;
 		$i=0;
     	Log::info(print_r($sgraphDataset, true));
-    	LOG::info('First Loop '.$i); 
     		foreach ($sgraphDataset as $gkey => $gvalue) 
     		{
-    			LOG::info('Second Loop '.$gkey);
-    			LOG::info(print_r($gvalue,true));
     			foreach ($gvalue as $skey => $svalue) 
     			{
-    				LOG::info('Second Loop '.$skey);
 	    			if($skey == 'data')
 	    			{
-	    				LOG::info('found data'); 
 	    				$data = array();
 	    				$data[] = $svalue;
-	    				LOG::info('get data'); 
 	    				foreach ($data as $dkey => $dvalue) 
 	    				{
 	    					Log::info(print_r($dvalue, true));
@@ -146,69 +144,42 @@ class SurveyController extends Controller
 	    					{
 	    						if($key == '0')
 	    						{
-									LOG::info('ans=>'.$value); 
 	    							$q0 += $value;
-	    							//break;	
 	    						}
 	    						if($key == '1')
 	    						{
-									LOG::info('ans=>'.$value); 
 	    							$q1 += $value;
-	    							//break;	
 	    						}
 	    						if($key == '2')
 	    						{
-									LOG::info('ans=>'.$value); 
 	    							$q2 += $value;
-	    							//break;	
 	    						}
 	    						if($key == '3')
 	    						{
-									LOG::info('ans=>'.$value); 
 	    							$q3 += $value;
-	    							//break;	
 	    						}
 	    						if($key == '4')
 	    						{
-									LOG::info('ans=>'.$value); 
 	    							$q4 += $value;
-	    							//break;	
 	    						}
 	    						if($key == '5')
 	    						{
-									LOG::info('ans=>'.$value); 
-	    							$q5 += $value;
-	    							//break;	
+									$q5 += $value;
 	    						}
 	    						if($key == '6')
 	    						{
-									LOG::info('ans=>'.$value); 
-	    							$q6 += $value;
-	    							//break;	
+									$q6 += $value;
 	    						}
 	    						if($key == '7')
 	    						{
-									LOG::info('ans=>'.$value); 
-	    							$q7 += $value;
-	    							//break;	
+	    							$q7 += $value;	
 	    						}
-	    						//break;
 	    					}
-	    					//break;
 	    				}
 	    			}
     			 } 
     			 $i++;
     		}
-    	LOG::info('Divide by'.$i);
-    	LOG::info($q0/$i);
-    	LOG::info($q1/$i);
-    	LOG::info($q2/$i);
-    	LOG::info($q3/$i);
-    	LOG::info($q4/$i);
-    	LOG::info($q5/$i);
-    	LOG::info($q6/$i);
-    	LOG::info($q7/$i);
     	
     	$ansdata = array();
     	array_push($ansdata,$q0/$i);
@@ -225,7 +196,7 @@ class SurveyController extends Controller
 						 'borderColor'=>"rgba(179,181,198,1)",
 						 'pointBackgroundColor'=>"rgba(179,181,198,1)",
 						 'pointBorderColor'=>"#fff",
-				   	 'pointHoverBackgroundColor'=>"#fff",
+				   	 	 'pointHoverBackgroundColor'=>"#fff",
 		  				 'pointHoverBorderColor'=>"rgba(179,181,198,1)",
 		 				 'pointHighlightFill'=> "rgba(101,202,182,1)",
 		 				 'fillColor' => "rgba(101,202,182,0.5)",
@@ -257,8 +228,7 @@ class SurveyController extends Controller
 			foreach ($userStatusArr as $skey => $svalue) {
 				$userStatus = $svalue->confirmed;
 			}
-			
-    		LOG::info('User status'.$userStatus);
+
 			if (!empty($userStatus) && $userStatus == 1) {
 
 				LOG::info('Active User');
@@ -327,11 +297,29 @@ class SurveyController extends Controller
 					$survey = $this->saveNewSurvey($title, $desc);
 
 					//create questions for the survey
-					for($i = 1;$i<=$num_ques;$i++)
-					{
-    					if(!empty('q'.$i)){
-							$surveyQuestion = $this->saveNewQuestion($request->input('question'.$i),$survey);
-						}
+					if(!empty($q1)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question1'),$survey);
+					}
+					if(!empty($q2)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question2'),$survey);
+					}
+					if(!empty($q3)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question3'),$survey);
+					}
+					if(!empty($q4)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question4'),$survey);
+					}
+					if(!empty($q5)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question5'),$survey);
+					}
+					if(!empty($q6)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question6'),$survey);
+					}
+					if(!empty($q7)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question7'),$survey);
+					}
+					if(!empty($q8)){
+						$surveyQuestion = $this->saveNewQuestion($request->input('question8'),$survey);
 					}
 				}
 			}

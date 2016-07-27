@@ -480,6 +480,25 @@ table.table th {
 	margin-right:5px;
 	width: 120px;
 }
+/* Send survey */
+.sendSurveyForm {
+	max-width: 540px;
+}
+.sendSurveyForm .inputMaterial {
+	background-color: transparent;
+}
+.remove-question {
+	color: #9ed070;
+	cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 39px;
+    font-size: 16px;
+    display: none;
+}
+.form-row:hover .remove-question {
+	display: block;
+}
 /* Responsive */
 @media (max-width: 700px) {
 	h1 {padding-bottom: 30px;}
