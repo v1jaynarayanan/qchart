@@ -60,7 +60,9 @@
             <div class="clearfix">
                 <div class="fL">
                     <a href="#" class="btn" id="checkAll">Check all</a>
+                    @if (Auth::user()->role_id == 0)
                     <a href="#" class="btn" id="deleteSelected">Delete selected</a>
+                    @endif
                 </div>
                 <ul class="pagination fR">
                     {!! $surveys->render(); !!}
