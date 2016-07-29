@@ -16,11 +16,7 @@
 		        	{{ csrf_field() }}
 		           	<div>
 						<label for="email">E-Mail Addresses</label>
-							@if ($errors->has('email'))
-								<span class="help-block">
-							    	<strong>{{ $errors->first('email') }}</strong>
-							 	</span>
-						 	@endif
+							
 						<input id="email" type="email" class="inputMaterial" name="email" value="{{  old('email') }}" size="500" required>
 						<span class="highlight"></span>
 						<span class="bar"></span>

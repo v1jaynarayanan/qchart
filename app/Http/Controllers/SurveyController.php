@@ -66,49 +66,54 @@ class SurveyController extends Controller
 
 		$questColl = collect(DB::select('SELECT GROUP_CONCAT(`SQ`.`id`) AS `qid` FROM `survey_questions` AS `SQ` WHERE `SQ`.`survey_id` in (SELECT `SU`.`id` FROM `survey` AS `SU` WHERE `SU`.`id` = '.$surveyId.')'));
 
-		//$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `id` != '.Auth::user()->id));
+		//$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `id` = '.Auth::user()->id));
 		$userColl = collect(DB::select('SELECT `id`,`name` from `users`'));
 
 		$colourArr = array("rgba(179,181,198,0.2)", "rgba(134,194,75,0.2)", "rgba(0,255,0,0.2)","rgba(120,140,198,0.2)","rgba(150,200,50,0.2)", "rgba(210,130,175,0.2)", "rgba(176,122,135,0.2)", "rgba(110,202,169,0.2)");
-		$fillcolor = array("rgba(114,224,13,0.5)","rgba(191,202,182,0.5)","rgba(194,114,201,0.5),rgba(124,204,23,0.5)","rgba(150,75,140,0.5)","rgba(150,144,180,0.5)","rgba(178,50,90,0.5)","rgba(190,120,230,0.5)");
+		$fillcolor = array("rgba(114,22	4,13,0.5)","rgba(191,202,182,0.5)","rgba(194,114,201,0.5),rgba(124,204,23,0.5)","rgba(150,75,140,0.5)","rgba(150,144,180,0.5)","rgba(178,50,90,0.5)","rgba(190,120,230,0.5)");
 		$highlight_fillcolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(54,124,63,1)","rgba(150,100,204,1)","rgba(99,140,220,1)","rgba(185,120,104,1)","rgba(199,40,120,1)");
 		$strokecolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(74,124,53,1)","rgba(91,122,202,1)","rgba(194,104,181,1)");
 
+		$noAnswers = true;
 		//get answers for survey questions answered by non admin users
 		foreach($userColl as $ukey=>$value){		
 			foreach($questColl as $key=> $val){		
 				//db query to get all answers for a particular survey		
 				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$val->qid.') AND `SA`.`user_id` = '.$value->id.''));
 				
-				if (empty($answersColl) || count($answersColl) == 0){
-					LOG::info('No answers for survey');
-					return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
-				}
-
-				foreach($answersColl as $ans){
-					$ansdata[] = $ans->answer;	
-				}
-				
-				if(!empty($ansdata))
+				if (!empty($answersColl) || count($answersColl) != 0)
 				{
-					//generate chart data
-					$sgraphDataset[] = array('label'=>$value->name,
-										'backgroundColor'=>$colourArr[$ukey],
-										'borderColor'=>"rgba(179,181,198,1)",
-										'pointBackgroundColor'=>"rgba(179,181,198,1)",
-										'pointBorderColor'=>"#fff",
-										'pointHoverBackgroundColor'=>"#fff",
-										'pointHoverBorderColor'=>"rgba(179,181,198,1)",
-										'pointHighlightFill'=> $highlight_fillcolor[$ukey],
-										'fillColor' => $fillcolor[$ukey],
-										'strokeColor' => $strokecolor[$ukey],
-										'data'=>$ansdata);
-					unset($ansdata);	
+
+					foreach($answersColl as $ans)
+					{
+						$ansdata[] = $ans->answer;	
+					}
+				
+					if(!empty($ansdata))
+					{
+						//generate chart data
+						$sgraphDataset[] = array('label'=>$value->name,
+											'backgroundColor'=>$colourArr[$ukey],
+											'borderColor'=>"rgba(179,181,198,1)",
+											'pointBackgroundColor'=>"rgba(179,181,198,1)",
+											'pointBorderColor'=>"#fff",
+											'pointHoverBackgroundColor'=>"#fff",
+											'pointHoverBorderColor'=>"rgba(179,181,198,1)",
+											'pointHighlightFill'=> $highlight_fillcolor[$ukey],
+											'fillColor' => $fillcolor[$ukey],
+											'strokeColor' => $strokecolor[$ukey],
+											'data'=>$ansdata);
+						unset($ansdata);	
+						$noAnswers = false;
+					}	
 				}	
+
+				
 			}
 		}	
 
-		if (empty($answersColl) || count($answersColl) == 0){
+		if ($noAnswers == true)
+		{
 			LOG::info('No answers for survey');
 			return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
 		}
@@ -116,7 +121,7 @@ class SurveyController extends Controller
 		//creaete aggregated dataset
 		$aggregateData = $this->aggregateData($sgraphDataset);
 		array_push($sgraphDataset, $aggregateData);
-		LOG::info(print_r($sgraphDataset, true));
+		//LOG::info(print_r($sgraphDataset, true));
 	
 		return view('survey_graph', ['labels'=>$labelsArr, 'datasets'=>$sgraphDataset]);
 
@@ -124,11 +129,10 @@ class SurveyController extends Controller
 	
 	protected function aggregateData($sgraphDataset)
 	{
-		LOG::info('aggregateData');
 		$q0=0;$q1=0;$q2=0;$q3=0;
 		$q4=0;$q5=0;$q6=0;$q7=0;
 		$i=0;
-    	Log::info(print_r($sgraphDataset, true));
+    	//Log::info(print_r($sgraphDataset, true));
     		foreach ($sgraphDataset as $gkey => $gvalue) 
     		{
     			foreach ($gvalue as $skey => $svalue) 
@@ -139,7 +143,7 @@ class SurveyController extends Controller
 	    				$data[] = $svalue;
 	    				foreach ($data as $dkey => $dvalue) 
 	    				{
-	    					Log::info(print_r($dvalue, true));
+	    					//Log::info(print_r($dvalue, true));
 	    					foreach ($dvalue as $key => $value) 
 	    					{
 	    						if($key == '0')
@@ -211,12 +215,19 @@ class SurveyController extends Controller
 		
 		$emailIds = explode(',', $email);
 
-		$validator = $this->validator($request->all());
-
-       	if ($validator->fails()) {
-           	return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
-
-       	}
+		foreach($emailIds as $email) 
+		{
+    		$validator = Validator::make(
+      		 	['email' => $email],
+        		['email' => 'required|email']
+    		);
+    		
+	    	if ($validator->fails())
+	    	{
+	    		LOG::ERROR('invalid email '.$email);
+	     		return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
+	    	}
+		}
 
 		$authController = new AuthController();
 		
@@ -232,8 +243,8 @@ class SurveyController extends Controller
 			if (!empty($userStatus) && $userStatus == 1) {
 
 				LOG::info('Active User');
-        		$oldTokens = EmailLogin::deleteOldTokens($email);
-				$emailLogin = EmailLogin::createForEmail($email);
+				$oldTokens = EmailLogin::deleteOldTokens($value);
+				$emailLogin = EmailLogin::createForEmail($value);
 				$url = $this->createLinkForEmail($surveyId, $emailLogin->token, null);	
 
        			$emailSent = $this->emailRequest($url, $value);
@@ -324,7 +335,7 @@ class SurveyController extends Controller
 				}
 			}
         }	
-		return view('new_survey_confirmation');
+        return view('new_survey_confirmation')->with('surveyDetails', $survey);
 	}
 
 	protected function saveNewSurvey($title, $desc)
@@ -349,11 +360,20 @@ class SurveyController extends Controller
 
 	}
 
-	protected function validator(array $data)
+	protected function validator(array $emailIds)
     {
-        return Validator::make($data, [
-            'email' => 'required|email|max:255'
-        ]);
+    	foreach($emailIds as $email) 
+		{
+    		$validator = Validator::make(
+      		 	['email' => $email],
+        		['email' => 'required|email']
+    		);
+    		
+	    	if ($validator->fails())
+	    	{
+	    		return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
+	    	}
+		}
     }
 
 	

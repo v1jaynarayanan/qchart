@@ -42,8 +42,10 @@ class HomeController extends Controller
     public function surveyDetails($surveyId)
     {
         if (Auth::check()){
+            $surveyQuestions = Survey::find($surveyId)->surveyquestions;   
             $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId);  
-            return view('survey_details')->with('surveyDetails', $surveyDetails);     
+            return view('survey_details')->with('surveyDetails', $surveyDetails)
+                                         ->with('surveyQuestions', $surveyQuestions);     
         }
     }
 
@@ -54,7 +56,7 @@ class HomeController extends Controller
     public function deleteSurvey(Request $request)
     {
          $checkBoxes = Input::get('cb');
-         
+
          if (Auth::check()){
              if (isset($checkBoxes)) {
                  foreach ($checkBoxes as $key => $value) {

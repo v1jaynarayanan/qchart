@@ -71,7 +71,7 @@ class AuthController extends Controller
             Auth::logout();
             //send account verification email
             $accVerify = $this->sendAccountVerificationEmail($request);
-            return Redirect::back()->with('status', 'Your account is inactive. Please activate by clicking the link sent to you by emai');
+            return Redirect::back()->with('status', 'Your account is inactive. Please activate by clicking the link sent to you by email');
         }
     }
 
@@ -122,19 +122,37 @@ class AuthController extends Controller
 
     public function authenticateEmail($token)
     {     
-        $emailLogin = EmailLogin::validFromToken($token);
+        try
+        {
+            $emailLogin = EmailLogin::validFromToken($token);
+        }
+        catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) 
+        {
+            LOG::error('ModelNotFoundException caught');
+            return redirect('/login')->with('status', 'Your account is inactive. Fill out your email id and password and click login to resend your acccount activation link by email');   
+        }
+
         $upd = EmailLogin::updateUserStatus($emailLogin->user->email);
 
         $auth = Auth::loginUsingId($emailLogin->user->id);
 
-        return redirect('/home');
+        return redirect('/home');      
     }   
 
     public function activeUserCompleteSurvey($surveyId, $token = null)
     {   
         LOG::info('activeUserCompleteSurvey');
         
-        $emailLogin = EmailLogin::validFromToken($token);
+        try
+        {
+            $emailLogin = EmailLogin::validFromToken($token);
+        }
+        catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) 
+        {
+            LOG::error('ModelNotFoundException caught when showing survey');
+            return redirect('/login')->with('status', 'Unfortunately, the survey is now closed');   
+        }
+        
         $upd = EmailLogin::updateUserStatus($emailLogin->user->email);
 
         $auth = Auth::loginUsingId($emailLogin->user->id);

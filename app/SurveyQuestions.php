@@ -25,7 +25,6 @@ class SurveyQuestions extends Model {
      */
     public function surveyanswers()
     {
-        return $this->hasMany('App\SurveyAnswers');
+        return $this->hasMany('App\SurveyAnswers', 'survey_quest_id');
     }
-
 }

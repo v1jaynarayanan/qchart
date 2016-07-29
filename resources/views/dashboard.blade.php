@@ -59,8 +59,9 @@
             </table>
             <div class="clearfix">
                 <div class="fL">
-                    <a href="#" class="btn" id="checkAll">Check all</a>
+                    <a href="#" class="btn" id="checkAll">Check all</a>&nbsp;
                     @if (Auth::user()->role_id == 0)
+                
                     <a href="#" class="btn" id="deleteSelected">Delete selected</a>
                     @endif
                 </div>
