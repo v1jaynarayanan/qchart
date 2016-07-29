@@ -21,7 +21,7 @@
 				</div>
 				<div class="form-row new-question">
 					<label class="qnsLabel">New Question <span class="qns-count">1</span></label>
-					<input type="text" class="textBox" name="q1"/>
+					<input type="text" class="textBox" name="question1"/>
 				</div>
 				<div id="addNewQuestionDiv">
 					<a href="javascript:void(0);" id="addNewQuestion"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add new question</a>

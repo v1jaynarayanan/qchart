@@ -63,6 +63,7 @@ class LoginPageTest extends TestCase
          $survey = factory(App\Survey::class)->create([
                     'user_id' => $user->id,
                     'title' => 'Test Survey',
+                    'slug' => 'Test Survey',
                     'description' => 'Test Survey',
                     'status' => 1]);
 
