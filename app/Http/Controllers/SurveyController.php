@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redirect;
 use App\Survey;
 use App\SurveyQuestions;
+use App\SurveyAnswers;
 use App\EmailLogin;
 use Validator;
 use Auth;
@@ -51,35 +52,61 @@ class SurveyController extends Controller
 
 	public function drawGraph($surveyId)
 	{
-		//db query to get all questions
-		$labels = DB::select('SELECT `SQ`.`question`, `SQ`.`id` FROM `survey_questions` AS `SQ` WHERE `SQ`.`survey_id` ='.$surveyId.'');
-
-		$labelsArr = $sgraphDataset = $ansdata = array();
-		if (empty($labels)){
+		//db query to get all questions for a particular survey
+		$labels = Survey::find($surveyId)->surveyquestions;	
+		
+		if (empty($labels) || count($labels) == 0 ){
 			LOG::info('No questions for survey');
 			return Redirect::back()->with('status', 'No questions found for survey. Unable to generate graph.');
 		}
 
+		$labelsArr = $sgraphDataset = $ansdata = array();
+		//get the questions for graph display
 		foreach ($labels as $k=> $lab) {
 			array_push($labelsArr, $lab->question);
 		}
 
-		$questColl = collect(DB::select('SELECT GROUP_CONCAT(`SQ`.`id`) AS `qid` FROM `survey_questions` AS `SQ` WHERE `SQ`.`survey_id` in (SELECT `SU`.`id` FROM `survey` AS `SU` WHERE `SU`.`id` = '.$surveyId.')'));
-
-		//$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `id` = '.Auth::user()->id));
-		$userColl = collect(DB::select('SELECT `id`,`name` from `users`'));
+		//get the question ids
+		$questColl = $labels->implode('id',',');
+		//LOG::info(print_r($questColl, true));
 
 		$colourArr = array("rgba(179,181,198,0.2)", "rgba(134,194,75,0.2)", "rgba(0,255,0,0.2)","rgba(120,140,198,0.2)","rgba(150,200,50,0.2)", "rgba(210,130,175,0.2)", "rgba(176,122,135,0.2)", "rgba(110,202,169,0.2)");
 		$fillcolor = array("rgba(114,22	4,13,0.5)","rgba(191,202,182,0.5)","rgba(194,114,201,0.5),rgba(124,204,23,0.5)","rgba(150,75,140,0.5)","rgba(150,144,180,0.5)","rgba(178,50,90,0.5)","rgba(190,120,230,0.5)");
 		$highlight_fillcolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(54,124,63,1)","rgba(150,100,204,1)","rgba(99,140,220,1)","rgba(185,120,104,1)","rgba(199,40,120,1)");
 		$strokecolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(74,124,53,1)","rgba(91,122,202,1)","rgba(194,104,181,1)");
 
+		//find out how many users have answered the survey questions?
+		$users = array();
+		foreach ($labels as $key => $value) 
+		{
+			//LOG::info('SurveyQuestion'.$value->id);
+			$surveyAns = SurveyAnswers::where('survey_quest_id', '=', $value->id)->get();
+
+			$uniqueUsers = $surveyAns->unique('user_id');
+			$uniqueUsers = $uniqueUsers->values()->all();
+			
+			if (empty($uniqueUsers) || count($uniqueUsers) ==0 )
+			{
+				LOG::info('No answers for survey');
+			    return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
+			}
+
+			foreach ($uniqueUsers as $key => $value) {
+				array_push($users, $value->user_id);
+			}
+			break;
+		}
+		
+		//get the user id and names for all users who have answered the survey
+		$userColl = collect(DB::select('SELECT `id`,`name` from `users` where `id` in ('.collect($users)->implode(',').')'));
+		//LOG::info(print_r($userColl, true));
+		
+
 		$noAnswers = true;
 		//get answers for survey questions answered by non admin users
 		foreach($userColl as $ukey=>$value){		
-			foreach($questColl as $key=> $val){		
-				//db query to get all answers for a particular survey		
-				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$val->qid.') AND `SA`.`user_id` = '.$value->id.''));
+			//db query to get all answers for a particular survey		
+				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$questColl.') AND `SA`.`user_id` = '.$value->id.''));
 				
 				if (!empty($answersColl) || count($answersColl) != 0)
 				{
@@ -88,7 +115,7 @@ class SurveyController extends Controller
 					{
 						$ansdata[] = $ans->answer;	
 					}
-				
+					
 					if(!empty($ansdata))
 					{
 						//generate chart data
@@ -107,9 +134,6 @@ class SurveyController extends Controller
 						$noAnswers = false;
 					}	
 				}	
-
-				
-			}
 		}	
 
 		if ($noAnswers == true)

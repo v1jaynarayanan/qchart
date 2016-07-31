@@ -55,12 +55,12 @@ Route::post('/survey/sendEmail', [
 
 Route::get('surveyComplete/{surveyId}/token/{token?}', [
     'as' => 'activeuser.survey.complete',
-    'uses' => 'Auth\AuthController@activeUserCompleteSurvey'
+    'uses' => 'Auth\SurveyAuthController@activeUserCompleteSurvey'
 ]);
 
 Route::get('surveyComplete/{surveyId}/email/{email?}', [
     'as' => 'newuser.survey.complete',
-    'uses' => 'Auth\AuthController@newUserCompleteSurvey'
+    'uses' => 'Auth\SurveyAuthController@newUserCompleteSurvey'
 ]);
 
 Route::post('/createNewSurvey', [
