@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\EmailLogin;
+use Session;
 use Mail;
 use Auth;
 use App\Http\Controllers\Auth\Exception;
@@ -139,43 +140,6 @@ class AuthController extends Controller
         return redirect('/home');      
     }   
 
-    public function activeUserCompleteSurvey($surveyId, $token = null)
-    {   
-        LOG::info('activeUserCompleteSurvey');
-        
-        try
-        {
-            $emailLogin = EmailLogin::validFromToken($token);
-        }
-        catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) 
-        {
-            LOG::error('ModelNotFoundException caught when showing survey');
-            return redirect('/login')->with('status', 'Unfortunately, the survey is now closed');   
-        }
-        
-        $upd = EmailLogin::updateUserStatus($emailLogin->user->email);
-
-        $auth = Auth::loginUsingId($emailLogin->user->id);
-
-        $surveyDetails = $this->getSurveyDetailsById($surveyId);
-
-        $questColl = $this->getSurveyQuestions($surveyId);
-
-        return view('/activeuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl);
-
-    }   
-
-    public function newUsercompleteSurvey($surveyId, $email = null)
-    {   
-        LOG::info('newUsercompleteSurvey'.$surveyId);
-
-        $surveyDetails = $this->getSurveyDetailsById($surveyId);
-
-        $questColl = $this->getSurveyQuestions($surveyId);
-
-        return view('/newuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl);
-    }   
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -194,14 +158,4 @@ class AuthController extends Controller
         ]);
     }
 
-    protected function getSurveyDetailsById($surveyId)
-    {
-        return DB::select('SELECT `survey`.`id` AS `survey_id`, `survey`.`title`, `survey`.`description`, `users`.`id`, `users`.`name`, `survey`.`status`, `survey`.`created_at`, `survey`.`updated_at` FROM `survey` AS `survey`, `users` AS `users` WHERE `survey`.`user_id` = `users`.`id` AND `survey`.`id` = '.$surveyId.'');            
-    } 
-
-    protected function getSurveyQuestions($surveyId) 
-    {
-        return collect(DB::select('SELECT `SQ`.`id` AS `qid`, `SQ`.`question` AS `question` FROM `survey_questions` AS `SQ` WHERE `SQ`.`survey_id` in (SELECT `SU`.`id` FROM `survey` AS `SU` WHERE `SU`.`id` = '.$surveyId.')'));
-
-    } 
 }
