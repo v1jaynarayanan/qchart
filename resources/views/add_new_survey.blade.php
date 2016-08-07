@@ -25,7 +25,7 @@
 				</div>
 				<div id="addNewQuestionDiv">
 					<a href="javascript:void(0);" id="addNewQuestion"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add new question</a>
-				</div>	
+				</div>
 				<button type="submit" class="btn" id="addNewSurvey" disabled>Submit</button>
 			</div>
 		</form>

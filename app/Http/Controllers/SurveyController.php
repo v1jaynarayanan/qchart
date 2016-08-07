@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redirect;
+use App\User;
 use App\Survey;
 use App\SurveyQuestions;
 use App\SurveyAnswers;
@@ -103,7 +104,7 @@ class SurveyController extends Controller
 		
 
 		$noAnswers = true;
-		//get answers for survey questions answered by non admin users
+		//get answers for survey questions answered by users
 		foreach($userColl as $ukey=>$value){		
 			//db query to get all answers for a particular survey		
 				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$questColl.') AND `SA`.`user_id` = '.$value->id.''));
@@ -142,11 +143,23 @@ class SurveyController extends Controller
 			return Redirect::back()->with('status', 'No answers found for survey. Unable to generate graph.');
 		}
 
-		//creaete aggregated dataset
+		//create aggregated dataset
 		$aggregateData = $this->aggregateData($sgraphDataset);
 		array_push($sgraphDataset, $aggregateData);
 		//LOG::info(print_r($sgraphDataset, true));
-	
+
+		/*
+		$showSgraphDataset = array();
+		if (count($sgraphDataset) > 2) {
+			LOG::info('Dataset > 2');
+			$showSgraphDataset = array_slice($sgraphDataset, 0, 2);
+			//array_push($showSgraphDataset, $trucSgraphDataset);
+			LOG::info(print_r($showSgraphDataset, true));
+		}
+		array_push($showSgraphDataset, $aggregateData);
+		LOG::info(print_r($showSgraphDataset, true));
+		*/
+
 		return view('survey_graph', ['labels'=>$labelsArr, 'datasets'=>$sgraphDataset]);
 
 	}
@@ -210,26 +223,42 @@ class SurveyController extends Controller
     		}
     	
     	$ansdata = array();
-    	array_push($ansdata,$q0/$i);
-    	array_push($ansdata,$q1/$i);
-    	array_push($ansdata,$q2/$i);
-    	array_push($ansdata,$q3/$i);
-    	array_push($ansdata,$q4/$i);
-    	array_push($ansdata,$q5/$i);
-    	array_push($ansdata,$q6/$i);
-    	array_push($ansdata,$q7/$i);
-
+    	if($q0 > 0){
+    		array_push($ansdata,$q0/$i);
+    	}
+    	if($q1 > 0){
+    		array_push($ansdata,$q1/$i);
+    	}
+    	if($q2 > 0){
+    		array_push($ansdata,$q2/$i);
+    	}
+    	if($q3 > 0){
+    		array_push($ansdata,$q3/$i);
+    	}
+    	if($q4 > 0){
+    		array_push($ansdata,$q4/$i);
+    	}
+    	if($q5 > 0){
+    		array_push($ansdata,$q5/$i);
+    	}
+    	if($q6 > 0){
+    		array_push($ansdata,$q6/$i);
+    	}
+    	if($q7 > 0){
+    		array_push($ansdata,$q7/$i);
+    	}
+    
     	return array('label'=>"Aggregate",
-						 'backgroundColor'=>"rgba(134,194,75,0.2)",
-						 'borderColor'=>"rgba(179,181,198,1)",
-						 'pointBackgroundColor'=>"rgba(179,181,198,1)",
-						 'pointBorderColor'=>"#fff",
-				   	 	 'pointHoverBackgroundColor'=>"#fff",
-		  				 'pointHoverBorderColor'=>"rgba(179,181,198,1)",
-		 				 'pointHighlightFill'=> "rgba(101,202,182,1)",
-		 				 'fillColor' => "rgba(101,202,182,0.5)",
-						 'strokeColor' => "rgba(101,202,182,1)",
-		 				 'data'=>$ansdata);
+					 'backgroundColor'=>"rgba(134,194,75,0.2)",
+					 'borderColor'=>"rgba(179,181,198,1)",
+				     'pointBackgroundColor'=>"rgba(179,181,198,1)",
+					 'pointBorderColor'=>"#fff",
+				   	 'pointHoverBackgroundColor'=>"#fff",
+		  			 'pointHoverBorderColor'=>"rgba(179,181,198,1)",
+		 			 'pointHighlightFill'=> "rgba(101,202,182,1)",
+		 			 'fillColor' => "rgba(101,202,182,0.5)",
+					 'strokeColor' => "rgba(101,202,182,1)",
+		 			 'data'=>$ansdata);
 	}
 
 	public function sendSurveyEmail(Request $request)
@@ -361,6 +390,310 @@ class SurveyController extends Controller
         }	
         return view('new_survey_confirmation')->with('surveyDetails', $survey);
 	}
+
+	public function activeUserSurveyResponse(Request $request)
+    {
+        //LOG::info('in activeUserSurveyResponse');
+        $answer = $request->input('answer');
+        $q1 = $request->input('question1');
+		$q2 = $request->input('question2');
+		$q3 = $request->input('question3');
+		$q4 = $request->input('question4');
+		$q5 = $request->input('question5');
+		$q6 = $request->input('question6');
+		$q7 = $request->input('question7');
+		$q8 = $request->input('question8');	
+		
+        $i=0;
+        $ans1=0;$ans2=0;$ans3=0;$ans4=0;
+        $ans5=0;$ans6=0;$ans7=0;$ans8=0;
+        foreach ($answer as $key => $value) {
+        	//LOG::info('Value'.$value);
+        	//LOG::info('i'.$i);
+        	if($i == 0){
+        		$ans1 = $value;
+            }
+        	if($i == 1){
+        		$ans2 = $value;
+        	}
+        	if($i == 2){
+        		$ans3 = $value;
+        	}
+        	if($i == 3){
+        		$ans4 = $value;
+        	}
+        	if($i == 4){
+        		$ans5 = $value;
+        	}
+        	if($i == 5){
+        		$ans6 = $value;
+        	}
+        	if($i == 6){
+        		$ans7 = $value;
+        	}
+        	if($i == 7){
+        		$ans8 = $value;
+        	}
+        	$i++;
+        }
+        /*
+        LOG::info('Ans1 '.$ans1);
+        LOG::info('Ans2 '.$ans2);
+        LOG::info('Ans3 '.$ans3);
+        LOG::info('Ans4 '.$ans4);
+        LOG::info('Ans5 '.$ans5);
+        LOG::info('Ans6 '.$ans6);
+        LOG::info('Ans7 '.$ans7);
+        LOG::info('Ans8 '.$ans8);
+
+        LOG::info('User id'.Auth::user()->id);
+  		*/
+
+  		//check if user has already answered the survey
+  		$alreadyAnswered = SurveyAnswers::where('user_id','=',Auth::user()->id)
+  						  			    ->where('survey_quest_id','=',$q1)->get();
+  		//LOG::info($alreadyAnswered); 
+  		if(!empty($alreadyAnswered) && count($alreadyAnswered) != 0) {
+  			LOG::error('User has already submitted a response for this survey.');
+  			return Redirect::back()->withInput()->with('status', 'You have already submitted your response.');
+  		}
+  		
+		if(!empty($q1) || count($q1) != 0){
+			//LOG::info('Survey Ans1 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q1;
+			$surveyAnswers->answer = $ans1;	
+			$surveyAnswers->save();
+		}
+		if(!empty($q2) || count($q2) != 0){
+			//LOG::info('Survey Ans2 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q2;
+			$surveyAnswers->answer = $ans2;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q3) || count($q3) != 0){
+			//LOG::info('Survey Ans3 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q3;
+			$surveyAnswers->answer = $ans3;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q4) || count($q4) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q4;
+			$surveyAnswers->answer = $ans4;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q5) || count($q5) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q5;
+			$surveyAnswers->answer = $ans5;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q6) || count($q6) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q6;
+			$surveyAnswers->answer = $ans6;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q7) || count($q7) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q7;
+			$surveyAnswers->answer = $ans7;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q8) || count($q8) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = Auth::user()->id;
+			$surveyAnswers->survey_quest_id = $q8;
+			$surveyAnswers->answer = $ans8;
+			$surveyAnswers->save();	
+		}
+
+		return view('survey_response_confirmation');
+		
+    }
+
+    public function newUserSurveyResponse(Request $request)
+    {
+        //LOG::info('in newUserSurveyResponse');
+        $answer = $request->input('answer');
+        $q1 = $request->input('question1');
+		$q2 = $request->input('question2');
+		$q3 = $request->input('question3');
+		$q4 = $request->input('question4');
+		$q5 = $request->input('question5');
+		$q6 = $request->input('question6');
+		$q7 = $request->input('question7');
+		$q8 = $request->input('question8');	
+		$name = $request->input('name');
+		$email = $request->input('email');
+		//LOG::info('name'.$name);
+		//LOG::info('email'.$email);
+
+		if(empty($name) || count($name) == 0 ) {
+			LOG::info('Name is Anonymous');
+			$name = 'Anonymous';
+		}
+
+		$validator = Validator::make(
+      		 	['email' => $email],
+        		['email' => 'required|email']
+    		);
+    		
+	    	if ($validator->fails())
+	    	{
+	    		LOG::ERROR('invalid email '.$email);
+	    		return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
+	    	}
+
+		//check if the user exists already but confirmed status is inactive
+		$user = User::where('email', $email)->get();
+		//LOG::info('User'.$user);
+		$userId=null;
+		
+		if(empty($user) || count($user) ==0) {
+			//register user
+			$user = new User();
+			$user->role_id=0;
+			$user->name=$name;
+			$user->email=$email;
+			$user->confirmed=0;
+			$user->admin=0;
+			$user->save();	
+			$userId=$user->id;
+			LOG::info('New user created'.$userId);
+		} else {
+			foreach ($user as $key => $value) {
+				$userId = $value->id;
+				//LOG::info('User Id'.$userId);
+			}
+		}
+
+        $i=0;
+        $ans1=0;$ans2=0;$ans3=0;$ans4=0;
+        $ans5=0;$ans6=0;$ans7=0;$ans8=0;
+        foreach ($answer as $key => $value) {
+        	//LOG::info('Value'.$value);
+        	//LOG::info('i'.$i);
+        	if($i == 0){
+        		$ans1 = $value;
+            }
+        	if($i == 1){
+        		$ans2 = $value;
+        	}
+        	if($i == 2){
+        		$ans3 = $value;
+        	}
+        	if($i == 3){
+        		$ans4 = $value;
+        	}
+        	if($i == 4){
+        		$ans5 = $value;
+        	}
+        	if($i == 5){
+        		$ans6 = $value;
+        	}
+        	if($i == 6){
+        		$ans7 = $value;
+        	}
+        	if($i == 7){
+        		$ans8 = $value;
+        	}
+        	$i++;
+        }
+        /*
+        LOG::info('Ans1 '.$ans1);
+        LOG::info('Ans2 '.$ans2);
+        LOG::info('Ans3 '.$ans3);
+        LOG::info('Ans4 '.$ans4);
+        LOG::info('Ans5 '.$ans5);
+        LOG::info('Ans6 '.$ans6);
+        LOG::info('Ans7 '.$ans7);
+        LOG::info('Ans8 '.$ans8);
+		
+		LOG::info('User id'.Auth::user()->id);
+  		*/
+
+  		//check if user already has anwered the questions
+  		$alreadyAnswered = SurveyAnswers::where('user_id','=',$userId)
+  					 	                ->where('survey_quest_id','=',$q1)->get();
+  		//LOG::info($alreadyAnswered); 
+  		if(!empty($alreadyAnswered) && count($alreadyAnswered) != 0) {
+  			LOG::error('User has already submitted a response for this survey.');
+  			return Redirect::back()->withInput()->with('status', 'You have already submitted your response.');
+  		}
+
+		if(!empty($q1) || count($q1) != 0){
+			//LOG::info('Survey Ans1 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q1;
+			$surveyAnswers->answer = $ans1;	
+			$surveyAnswers->save();
+		}
+		if(!empty($q2) || count($q2) != 0){
+			//LOG::info('Survey Ans2 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q2;
+			$surveyAnswers->answer = $ans2;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q3) || count($q3) != 0){
+			//LOG::info('Survey Ans3 ');
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q3;
+			$surveyAnswers->answer = $ans3;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q4) || count($q4) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q4;
+			$surveyAnswers->answer = $ans4;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q5) || count($q5) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q5;
+			$surveyAnswers->answer = $ans5;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q6) || count($q6) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q6;
+			$surveyAnswers->answer = $ans6;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q7) || count($q7) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q7;
+			$surveyAnswers->answer = $ans7;
+			$surveyAnswers->save();	
+		}
+		if(!empty($q8) || count($q8) != 0){
+			$surveyAnswers = new SurveyAnswers();
+			$surveyAnswers->user_id = $userId;
+			$surveyAnswers->survey_quest_id = $q8;
+			$surveyAnswers->answer = $ans8;
+			$surveyAnswers->save();	
+		}
+		
+		return view('survey_response_confirmation');
+    }
 
 	protected function saveNewSurvey($title, $desc)
 	{

@@ -53,18 +53,36 @@ Route::post('/survey/sendEmail', [
 	'uses' => 'SurveyController@sendSurveyEmail'
 ]);
 
-Route::get('surveyComplete/{surveyId}/token/{token?}', [
-    'as' => 'activeuser.survey.complete',
-    'uses' => 'Auth\SurveyAuthController@activeUserCompleteSurvey'
-]);
-
-Route::get('surveyComplete/{surveyId}/email/{email?}', [
-    'as' => 'newuser.survey.complete',
-    'uses' => 'Auth\SurveyAuthController@newUserCompleteSurvey'
-]);
-
 Route::post('/createNewSurvey', [
   'as' => 'survey.create',  
   'uses' => 'SurveyController@createNewSurvey'
 ]);
 
+Route::post('/closeSurvey/{survey}', [
+  'as' => 'survey.close',  
+  'uses' => 'HomeController@closeSurvey'
+]);
+
+Route::group(['middlewareGroups' => 'web'], function () {
+
+  Route::get('surveyComplete/{surveyId}/token/{token?}', [
+    'as' => 'activeuser.survey.complete',
+    'uses' => 'Auth\SurveyAuthController@activeUserCompleteSurvey'
+  ]);
+
+  Route::get('surveyComplete/{surveyId}/email/{email?}', [
+    'as' => 'newuser.survey.complete',
+    'uses' => 'Auth\SurveyAuthController@newUserCompleteSurvey'
+  ]);
+
+  Route::post('/submit/activeUserSurveyResponse', [
+      'as' => 'activeuser.submit.survey.response',  
+      'uses' => 'SurveyController@activeUserSurveyResponse'
+    ]);   
+
+  Route::post('/submit/newUserSurveyResponse', [
+      'as' => 'newuser.submit.survey.response',  
+      'uses' => 'SurveyController@newUserSurveyResponse'
+    ]);  
+
+});

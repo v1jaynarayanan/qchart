@@ -7,7 +7,12 @@
                 <h3>Register</h3>
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                     {{ csrf_field() }}
-
+                    @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                    @endif 
+                       
                     <div class="group{{ $errors->has('name') ? ' has-error' : '' }}">
                         <input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}" required>
                         <span class="highlight"></span>

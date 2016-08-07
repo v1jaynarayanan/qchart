@@ -90,8 +90,10 @@ header {
 }
 #chartHolder {
 	margin: 0 auto;
-	max-width: 450px;
+	max-width: 960px;
 	position: relative;
+	width: 100%;
+	height: auto;
 }
 /* Chart legend */
 #legend {position: absolute; right: -100px; top:0px; font-size: 16px; text-align: left;}

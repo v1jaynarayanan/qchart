@@ -19,7 +19,7 @@
 			scaleLineColor : "#abaeb2",
 			pointLabelFontFamily : "tahoma",
 			pointLabelFontSize:13,
-			pointLabelFontColor:'#abaeb2'
+			pointLabelFontColor:'#abaeb2',
         };
 		//Create Radar chart
 		var ctx = document.getElementById("myChart").getContext("2d");
