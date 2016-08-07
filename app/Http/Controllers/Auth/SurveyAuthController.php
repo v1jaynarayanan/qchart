@@ -55,7 +55,7 @@ class SurveyAuthController extends Controller
         LOG::info('SurveyAuthController::activeUserCompleteSurvey');
         
         //clear out any previous session
-        Session::flush();
+        //Session::flush();
 
         try
         {
@@ -84,15 +84,16 @@ class SurveyAuthController extends Controller
         LOG::info('SurveyAuthController::newUsercompleteSurvey'.$surveyId);
 
         //clear out any previous session
-        Session::flush();
-
+        //Session::flush();
         $surveyDetails = $this->getSurveyDetailsById($surveyId);
 
         $questColl = $this->getSurveyQuestions($surveyId);
 
-        return view('/newuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl);
+        return view('/newuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl)
+            ->with('email', $email);
     }   
 
+    
     protected function getSurveyDetailsById($surveyId)
     {
         return DB::select('SELECT `survey`.`id` AS `survey_id`, `survey`.`title`, `survey`.`description`, `users`.`id`, `users`.`name`, `survey`.`status`, `survey`.`created_at`, `survey`.`updated_at` FROM `survey` AS `survey`, `users` AS `users` WHERE `survey`.`user_id` = `users`.`id` AND `survey`.`id` = '.$surveyId.'');            

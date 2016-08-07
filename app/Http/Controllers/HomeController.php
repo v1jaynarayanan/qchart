@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use App\Survey;
+use App\SurveyAnswers;
+use App\User;
 use Auth;
+use Mail;
 use Log;
 use DB;
 
@@ -90,6 +93,84 @@ class HomeController extends Controller
     public function showNewSurveyPage()
     {
         return view('add_new_survey');
+    }
+
+    /**
+     * Close survey
+     *
+     */
+    public function closeSurvey($surveyId)
+    {
+        if (Auth::check()){
+            $survey = Survey::where('id','=',$surveyId)->update(['status' => 0]);
+
+            //db query to get all questions for a particular survey
+            $labels = Survey::find($surveyId)->surveyquestions; 
+
+            if (empty($labels) || count($labels) ==0 )
+            {
+                LOG::info('Survey closed. No survey results found for this survey. No users were informed.');
+
+                return Redirect::back()->with('status', 'Survey closed. No survey results found for this survey. No users were informed.');
+            }
+
+            //find out how many users have answered the survey questions?
+            $users = array();
+            foreach ($labels as $key => $value) 
+            {
+                //LOG::info('SurveyQuestion'.$value->id);
+                $surveyAns = SurveyAnswers::where('survey_quest_id', '=', $value->id)->get();
+
+                $uniqueUsers = $surveyAns->unique('user_id');
+                $uniqueUsers = $uniqueUsers->values()->all();
+                
+                if (empty($uniqueUsers) || count($uniqueUsers) ==0 )
+                {
+                    LOG::info('No users have answered this survey');
+                    return Redirect::back()->with('status', 'No users have answered this survey. Survey Closed.');
+                }
+
+                foreach ($uniqueUsers as $key => $value) {
+                    array_push($users, $value->user_id);
+                }
+                break;
+            }
+            
+            //LOG::info('Admin users email'.Auth::user()->email);
+            //LOG::info('Users who have answered this survey');
+            //LOG::info(print_r($users, true));
+
+            $url = $this->createGraphLinkForEmail($surveyId);  
+
+            foreach ($users as $key => $value) {
+                $user = User::find($value);
+                if(!empty($user) && !count($user) == 0){
+                    $emailSent = $this->emailRequest($url, $user->email);
+                    //LOG::info('Email sent to '. $user->email);
+                }
+            }
+
+            //inform admin user
+            $emailSent = $this->emailRequest($url, Auth::user()->email);
+            //LOG::info('Email sent to Admin user');
+
+            return redirect('/home');     
+        }
+    }
+
+    protected function createGraphLinkForEmail($surveyId)
+    {
+        return $url = route('survey.graph', [
+                    'surveyId' => $surveyId,
+                ]);
+    }
+
+    public function emailRequest($url, $value)
+    {
+       return Mail::send('email_survey_closed', ['url' => $url], function ($m) use ($value) {
+                $m->from('noreply@qchart.com', 'QChart');
+                $m->to($value)->subject('QChart - Survey Closed. Please view survey results.');
+        }); 
     }
 
     protected function getSurveysCreatedByUser()

@@ -10,6 +10,7 @@
                 {{ session('status') }}
             </div>
         @endif
+        
         <table class="table">
             <tr>
                 <th>Id</th>
@@ -23,6 +24,8 @@
             </tr>
             @if (isset($surveyDetails) && !empty($surveyDetails))
                 @foreach ($surveyDetails as $i => $value) 
+                <form name="dashboardForm" action="{{URL::to('/')}}/closeSurvey/{{$value->survey_id}}" method="POST">
+                {{ csrf_field() }}
                     <tr>
                         <td>{{ $value->survey_id }}</td>
                         <td>{{ $value->title }}</td>
@@ -34,10 +37,15 @@
                         @if (Auth::user()->role_id == 0)
                         <td>
                             <a href="{{URL::to('/')}}/drawGraph/{{$value->survey_id}}" class="btn survey-btn">Generate Graph</a>
-                             <a href="{{URL::to('/')}}/sendSurvey/{{$value->survey_id}}" class="btn">Send Survey</a>
+                            @if ($value->status == 1)
+                                <a href="{{URL::to('/')}}/sendSurvey/{{$value->survey_id}}" class="btn survey-btn">Send Survey</a>
+
+                                <a href="#" class="btn" id="deleteSelected">Close Survey</a>
+                            @endif 
                         </td>    
                         @endif
                     </tr>
+                </form>    
                 @endforeach
             @endif        
         </table>
@@ -60,5 +68,15 @@
                 @endforeach
             @endif  
         </table>
+
+        <div id="popUpOverlay">
+            <div id="popUp">
+                <h4>Are you sure want to close the selected survey?</h4>
+                <div class="popBtns clearfix">
+                    <a href="#" class="btn" id="confirmBtn">Ok</a>                        
+                    <a href="#" class="btn" id="cancelBtn">Cancel</a>
+                </div>
+            </div>
+        </div>    
     </div>
 @endsection

@@ -10,7 +10,11 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form class="form-horizontal" role="form" method="POST" action="">
+
+        <form class="form-horizontal" role="form" action="{{ url('/submit/newUserSurveyResponse') }}" method="POST" name="newUserSubmitSurveyResponseForm" />
+        
+            {{ csrf_field() }}
+
             @if (isset($surveyDetails) && !empty($surveyDetails))
                 @foreach ($surveyDetails as $i => $value) 
                     <div class="clearfix">
@@ -31,24 +35,37 @@
                         
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $value->question }}</td>
-                                <td><input type="textbox" class="textbox"></td>
+                                <td><label class="qnsLabel">{{ $value->question }} <input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
+                                <td><div class="form-row new-question">
+                                        <select name="answer[]" id="answer{{ $i }}"> 
+                                                 <option value="1">1</option>
+                                                 <option value="2">2</option>
+                                                 <option value="3">3</option>
+                                                 <option value="4">4</option>
+                                                 <option value="5">5</option>
+                                                 <option value="6">6</option>
+                                                 <option value="7">7</option>
+                                                 <option value="8">8</option>
+                                                 <option value="9">9</option>
+                                                 <option value="10">10</option>
+                                        </select>         
+                                    </div>
+                                </td>
                             </tr>   
-                       
 
                         @endforeach         
                     @endif
              </table>
              <table class="table">
                 <tr>
-                    <th>Your Name: <input type="textbox" /></th>
-                    <th>Your Email: <input type="textbox" /></th>
+                    <th>Your Name: <input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}" required></th>
+                    <th>Your Email: <input id="email" type="email" class="inputMaterial" name="email" value="{{ $email }}" required></th>
                 </tr>
             </table>        
              <div class="group clearfix">
-                    <button type="submit" class="btn fR" disabled="">
-                            <i class="fa fa-btn fa-user"></i> Submit Answers
-                    </button>
+                <button type="submit" class="btn fR">
+                  <i class="fa fa-btn fa-user"></i> Submit Answers
+                </button>
              </div>
         </form>     
     </div>

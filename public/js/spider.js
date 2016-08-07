@@ -290,3 +290,24 @@ $(window).resize(function(){
     viewportH();
 
 });
+
+function updateDataset(target, chart, label) {
+    var store = chart.store;
+    var exists = false;
+    for (var i = 0; i < store.length; i++) {
+          if (store[i][0] === label) {
+              exists = true;
+              chart.datasets.push(store.splice(i, 1)[0][1]);
+              target.fadeTo("slow", 1);
+          }
+    }
+    if (!exists) {
+            for (var i = 0; i < chart.datasets.length; i++) {
+              if (chart.datasets[i].label === label) {
+                chart.store.push([label, chart.datasets.splice(i, 1)[0]]);
+                target.fadeTo("slow", 0.33);
+              }
+            }
+    }
+    chart.update();
+}

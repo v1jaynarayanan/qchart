@@ -10,11 +10,14 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form class="form-horizontal" role="form" method="POST" action="">
+         <form class="form-horizontal" role="form" action="{{ url('/submit/activeUserSurveyResponse') }}" method="POST" name="activeUserSubmitSurveyResponseForm" />
+        
+            {{ csrf_field() }}
+
             @if (isset($surveyDetails) && !empty($surveyDetails))
                 @foreach ($surveyDetails as $i => $value) 
                     <div class="clearfix">
-                        <h3>Welcome <b> {{ Auth::user()->name }} </b>. Please fill out your answers for survey:</h3><h2 class="fL">{{ $value->title }}
+                        <h3>Welcome <b> {{ Auth::user()->name }} </b>. Please fill out your answers for the survey:</h3><h2 class="fL">{{ $value->title }}
                     </div>
                 @endforeach         
             @endif
@@ -28,11 +31,24 @@
                     @if (isset($surveyQuestions) && !empty($surveyQuestions))
                         @foreach ($surveyQuestions as $i => $value) 
 
-                        
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $value->question }}</td>
-                                <td><input type="textbox" class="textbox"></td>
+                                <td><label class="qnsLabel">{{ $value->question }} <input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
+                                <td><div class="form-row new-question">
+                                        <select name="answer[]" id="answer{{ $i }}"> 
+                                                 <option value="1">1</option>
+                                                 <option value="2">2</option>
+                                                 <option value="3">3</option>
+                                                 <option value="4">4</option>
+                                                 <option value="5">5</option>
+                                                 <option value="6">6</option>
+                                                 <option value="7">7</option>
+                                                 <option value="8">8</option>
+                                                 <option value="9">9</option>
+                                                 <option value="10">10</option>
+                                        </select>         
+                                    </div>
+                                </td>
                             </tr>   
                        
 
@@ -40,11 +56,11 @@
                     @endif
              </table>
              <div class="group clearfix">
-                    <button type="submit" class="btn fR" disabled="">
-                            <i class="fa fa-btn fa-user"></i> Submit Answers
-                    </button>
+                <button type="submit" class="btn fR">
+                  <i class="fa fa-btn fa-user"></i> Submit Answers
+                </button>
              </div>
-        </form>        
+        </form>      
     </div>
 
 @endsection

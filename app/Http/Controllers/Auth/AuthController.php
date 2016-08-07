@@ -59,7 +59,7 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -79,16 +79,43 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = $this->validator($request->all());
-
         if ($validator->fails()) {
             $this->throwValidationException(
                 $request, $validator
             );
         }
 
-        $user = $this->create($request->all());
-        $status = $this->sendAccountVerificationEmail($request);    
-        return view('auth.registration_confirmation');
+        //check if user email id already exists and name is anonymous
+        $email = $request->input('email');
+        $name = $request->input('name');
+        $pwd = $request->input('password');
+        
+        $user = User::where('email','=',$email)->first();
+
+        if (!empty($user) || count($user) > 0) {
+            LOG::info('User Name:'.$user->name);
+            //email id already esits but check if user name is anonumous
+                if('Anonymous' == $user->name){
+                    LOG::info('User is anonymous');
+                    $user->name=$name;
+                    $user->email=$email;
+                    $user->role_id = 0; 
+                    $user->password = bcrypt($pwd);
+                    $user->confirmed = false;
+                    $user->admin = 0;
+                    $user->save();
+                    LOG::info('User record updated');
+                    $status = $this->sendAccountVerificationEmail($request);   
+                    return view('auth.registration_confirmation');
+                }
+                else {
+                    return Redirect::back()->withInput()->withErrors(['email' => 'This email has already been taken.']);
+                }
+        } else {
+            $user = $this->create($request->all());
+            $status = $this->sendAccountVerificationEmail($request);    
+            return view('auth.registration_confirmation');
+        }
     }
 
     /**
