@@ -26,7 +26,8 @@ class NewSurveyPageTest extends TestCase
              ->type('Test Survey Description', 'surveyDescription')
              ->type('Test Question 1', 'question1')
              ->press('addNewSurvey')
-             ->see('Your new survey has been created sucessfully');
+             ->see('Create New Survey Confirmation')
+             ->see('Your new survey has been created successfully.');
     
     }    
 

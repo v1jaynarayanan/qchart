@@ -15,6 +15,15 @@ class SurveyQuestions extends Model {
      */
     protected $table = 'survey_questions';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'survey_id', 'question',
+    ];
+
     public function survey()
     {
         return $this->belongsTo('App\Survey', 'survey_id');

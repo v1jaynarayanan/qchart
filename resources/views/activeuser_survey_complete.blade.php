@@ -56,7 +56,7 @@
                     @endif
              </table>
              <div class="group clearfix">
-                <button type="submit" class="btn fR">
+                <button type="submit" class="btn fR" id="submitBtn">
                   <i class="fa fa-btn fa-user"></i> Submit Answers
                 </button>
              </div>

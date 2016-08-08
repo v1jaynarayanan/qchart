@@ -71,7 +71,7 @@
 
         <div id="popUpOverlay">
             <div id="popUp">
-                <h4>Are you sure want to close the selected survey?</h4>
+                <h4>Are you sure you want to close the survey? <br><br> All survey respondents will be notified when you close the survey.</h4>
                 <div class="popBtns clearfix">
                     <a href="#" class="btn" id="confirmBtn">Ok</a>                        
                     <a href="#" class="btn" id="cancelBtn">Cancel</a>
