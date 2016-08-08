@@ -73,6 +73,11 @@ class SurveyAuthController extends Controller
 
         $surveyDetails = $this->getSurveyDetailsById($surveyId);
 
+        if(empty($surveyDetails ) || count($surveyDetails) == 0) {
+            LOG::error('Survey does not exist');
+            return redirect('/login')->with('status', 'Unfortunately, the survey does not exist.');   
+        }
+        
         $questColl = $this->getSurveyQuestions($surveyId);
 
         return view('/activeuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl);
@@ -86,6 +91,11 @@ class SurveyAuthController extends Controller
         //clear out any previous session
         //Session::flush();
         $surveyDetails = $this->getSurveyDetailsById($surveyId);
+
+        if(empty($surveyDetails ) || count($surveyDetails) == 0) {
+            LOG::error('Survey does not exist');
+            return redirect('/login')->with('status', 'Unfortunately, the survey does not exist.');   
+        }
 
         $questColl = $this->getSurveyQuestions($surveyId);
 

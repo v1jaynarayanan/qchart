@@ -102,7 +102,11 @@ class HomeController extends Controller
     public function closeSurvey($surveyId)
     {
         if (Auth::check()){
+            //close survey
             $survey = Survey::where('id','=',$surveyId)->update(['status' => 0]);
+            
+            $survey = Survey::find($surveyId);
+            //LOG::info($survey->title);
 
             //db query to get all questions for a particular survey
             $labels = Survey::find($surveyId)->surveyquestions; 
@@ -145,13 +149,13 @@ class HomeController extends Controller
             foreach ($users as $key => $value) {
                 $user = User::find($value);
                 if(!empty($user) && !count($user) == 0){
-                    $emailSent = $this->emailRequest($url, $user->email);
+                    $emailSent = $this->emailRequest($url, $user->email, $survey->title);
                     //LOG::info('Email sent to '. $user->email);
                 }
             }
 
             //inform admin user
-            $emailSent = $this->emailRequest($url, Auth::user()->email);
+            $emailSent = $this->emailRequest($url, Auth::user()->email, $survey->title);
             //LOG::info('Email sent to Admin user');
 
             return redirect('/home');     
@@ -165,9 +169,9 @@ class HomeController extends Controller
                 ]);
     }
 
-    public function emailRequest($url, $value)
+    public function emailRequest($url, $value, $surveyTitle)
     {
-       return Mail::send('email_survey_closed', ['url' => $url], function ($m) use ($value) {
+       return Mail::send('email_survey_closed', ['url' => $url, 'surveyTitle' => $surveyTitle], function ($m) use ($value) {
                 $m->from('noreply@qchart.com', 'QChart');
                 $m->to($value)->subject('QChart - Survey Closed. Please view survey results.');
         }); 

@@ -1,4 +1,4 @@
-{{ Auth::user()->name }} has closed this survey. <br>
+{{ Auth::user()->name }} has closed the survey {{ $surveyTitle }}. <br>
 
 Thank you for sending your response for this survey. <br>
 
