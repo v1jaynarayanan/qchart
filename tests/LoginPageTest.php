@@ -9,7 +9,7 @@ class LoginPageTest extends TestCase
 {
     use DatabaseMigrations;
     
-    public function testInactiveUserLogin()
+    public function testShouldNotLoginInactiveUser()
     {
         $user = factory(App\User::class)->create([
                     'name' => 'newuser',
@@ -25,10 +25,10 @@ class LoginPageTest extends TestCase
              ->type('newuser@user.com', 'email')
              ->type('passw0RD', 'password')
              ->press('Login')
-             ->see('Login');
+             ->see('Your account is inactive. Please activate by clicking the link sent to you by email.');
     }
 
-    public function testActiveUserLogin()
+    public function testShouldLoginActiveUser()
     {
         $user = factory(App\User::class)->create([
                     'name' => 'newuser1',
@@ -47,7 +47,7 @@ class LoginPageTest extends TestCase
              ->see('Survey Dashboard');
     }
 
-    public function testLoginViaEmailAuthentication(){
+    public function testShouldLoginViaEmailAuthentication(){
 
          $user = factory(App\User::class)->create([
                     'name' => 'newuser2',
@@ -72,4 +72,29 @@ class LoginPageTest extends TestCase
          $this->assertRedirectedTo('home');
 
     }
+
+    public function testShouldNotLoginViaEmailAuthentication(){
+
+         $user = factory(App\User::class)->create([
+                    'name' => 'newuser1',
+                    'email' => 'newuser1@user.com',
+                    'role_id' => 0,
+                    'password' => Hash::make('passw0RD'),
+                    'confirmed' => 0,
+                    'admin' => 0]);
+         $delEmailLogin = App\EmailLogin::where('email', '=', 'newuser1@user.com')->delete();
+
+         $survey = factory(App\Survey::class)->create([
+                    'user_id' => $user->id,
+                    'title' => 'Test Survey',
+                    'slug' => 'Test Survey',
+                    'description' => 'Test Survey',
+                    'status' => 1]);
+
+         $response = $this->call('GET', 'auth/email-authenticate/test');
+
+         $this->assertRedirectedTo('login');
+
+    }
+
 }
