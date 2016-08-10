@@ -72,9 +72,9 @@ class SurveyController extends Controller
 		//LOG::info(print_r($questColl, true));
 
 		$colourArr = array("rgba(179,181,198,0.2)", "rgba(134,194,75,0.2)", "rgba(0,255,0,0.2)","rgba(120,140,198,0.2)","rgba(150,200,50,0.2)", "rgba(210,130,175,0.2)", "rgba(176,122,135,0.2)", "rgba(110,202,169,0.2)");
-		$fillcolor = array("rgba(114,22	4,13,0.5)","rgba(191,202,182,0.5)","rgba(194,114,201,0.5),rgba(124,204,23,0.5)","rgba(150,75,140,0.5)","rgba(150,144,180,0.5)","rgba(178,50,90,0.5)","rgba(190,120,230,0.5)");
-		$highlight_fillcolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(54,124,63,1)","rgba(150,100,204,1)","rgba(99,140,220,1)","rgba(185,120,104,1)","rgba(199,40,120,1)");
-		$strokecolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(74,124,53,1)","rgba(91,122,202,1)","rgba(194,104,181,1)");
+		$fillcolor = array("rgba(114,224,13,0.5)","rgba(191,202,182,0.5)","rgba(194,114,201,0.5),rgba(124,204,23,0.5)","rgba(150,75,140,0.5)","rgba(150,144,180,0.5)","rgba(178,50,90,0.5)","rgba(190,120,230,0.5)");
+		$highlight_fillcolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(124,204,23,1)","rgba(150,75,140,1)","rgba(99,140,220,1)","rgba(178,50,90,1)","rgba(90,120,230,1)");
+		$strokecolor = array("rgba(114,224,13,1)","rgba(191,202,182,1)","rgba(194,114,201,1)","rgba(124,204,23,1)","rgba(178,50,90,1)","rgba(90,120,230,1)");
 
 		//find out how many users have answered the survey questions?
 		$users = array();
@@ -408,8 +408,6 @@ class SurveyController extends Controller
         $ans1=0;$ans2=0;$ans3=0;$ans4=0;
         $ans5=0;$ans6=0;$ans7=0;$ans8=0;
         foreach ($answer as $key => $value) {
-        	//LOG::info('Value'.$value);
-        	//LOG::info('i'.$i);
         	if($i == 0){
         		$ans1 = $value;
             }
@@ -436,18 +434,6 @@ class SurveyController extends Controller
         	}
         	$i++;
         }
-        /*
-        LOG::info('Ans1 '.$ans1);
-        LOG::info('Ans2 '.$ans2);
-        LOG::info('Ans3 '.$ans3);
-        LOG::info('Ans4 '.$ans4);
-        LOG::info('Ans5 '.$ans5);
-        LOG::info('Ans6 '.$ans6);
-        LOG::info('Ans7 '.$ans7);
-        LOG::info('Ans8 '.$ans8);
-
-        LOG::info('User id'.Auth::user()->id);
-  		*/
 
   		//check if user has already answered the survey
   		$alreadyAnswered = SurveyAnswers::where('user_id','=',Auth::user()->id)
@@ -458,64 +444,34 @@ class SurveyController extends Controller
   			return Redirect::back()->withInput()->with('status', 'You have already submitted your response.');
   		}
   		
+  		$userId = Auth::user()->id;
 		if(!empty($q1) || count($q1) != 0){
-			//LOG::info('Survey Ans1 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q1;
-			$surveyAnswers->answer = $ans1;	
-			$surveyAnswers->save();
+			LOG::info('Survey Ans1 '.$ans1);
+			$surveyAns = $this->createAnswer($userId, $q1, $ans1);
 		}
 		if(!empty($q2) || count($q2) != 0){
-			//LOG::info('Survey Ans2 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q2;
-			$surveyAnswers->answer = $ans2;
-			$surveyAnswers->save();	
+			LOG::info('Survey Ans2 '.$ans2);
+			$surveyAns = $this->createAnswer($userId, $q2, $ans2);
 		}
 		if(!empty($q3) || count($q3) != 0){
 			//LOG::info('Survey Ans3 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q3;
-			$surveyAnswers->answer = $ans3;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q3, $ans3);
 		}
 		if(!empty($q4) || count($q4) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q4;
-			$surveyAnswers->answer = $ans4;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q4, $ans4);	
 		}
 		if(!empty($q5) || count($q5) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q5;
-			$surveyAnswers->answer = $ans5;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q5, $ans5);	
 		}
 		if(!empty($q6) || count($q6) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q6;
-			$surveyAnswers->answer = $ans6;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q6, $ans6);	
 		}
 		if(!empty($q7) || count($q7) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q7;
-			$surveyAnswers->answer = $ans7;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q7, $ans7);	
 		}
 		if(!empty($q8) || count($q8) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = Auth::user()->id;
-			$surveyAnswers->survey_quest_id = $q8;
-			$surveyAnswers->answer = $ans8;
-			$surveyAnswers->save();	
+			LOG::info('Survey Ans8 '.$ans8);
+			$surveyAns = $this->createAnswer($userId, $q8, $ans8);	
 		}
 
 		return view('survey_response_confirmation');
@@ -536,9 +492,7 @@ class SurveyController extends Controller
 		$q8 = $request->input('question8');	
 		$name = $request->input('name');
 		$email = $request->input('email');
-		//LOG::info('name'.$name);
-		//LOG::info('email'.$email);
-
+		
 		if(empty($name) || count($name) == 0 ) {
 			LOG::info('Name is Anonymous');
 			$name = 'Anonymous';
@@ -555,7 +509,7 @@ class SurveyController extends Controller
 	    		return Redirect::back()->withInput()->with('status', 'Invalid email id entered');
 	    	}
 
-		//check if the user exists already but confirmed status is inactive
+		//check if the user exists already
 		$user = User::where('email', $email)->get();
 		//LOG::info('User'.$user);
 		$userId=null;
@@ -610,19 +564,7 @@ class SurveyController extends Controller
         	}
         	$i++;
         }
-        /*
-        LOG::info('Ans1 '.$ans1);
-        LOG::info('Ans2 '.$ans2);
-        LOG::info('Ans3 '.$ans3);
-        LOG::info('Ans4 '.$ans4);
-        LOG::info('Ans5 '.$ans5);
-        LOG::info('Ans6 '.$ans6);
-        LOG::info('Ans7 '.$ans7);
-        LOG::info('Ans8 '.$ans8);
-		
-		LOG::info('User id'.Auth::user()->id);
-  		*/
-
+        
   		//check if user already has anwered the questions
   		$alreadyAnswered = SurveyAnswers::where('user_id','=',$userId)
   					 	                ->where('survey_quest_id','=',$q1)->get();
@@ -634,65 +576,43 @@ class SurveyController extends Controller
 
 		if(!empty($q1) || count($q1) != 0){
 			//LOG::info('Survey Ans1 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q1;
-			$surveyAnswers->answer = $ans1;	
-			$surveyAnswers->save();
+			$surveyAns = $this->createAnswer($userId, $q1, $ans1);
 		}
 		if(!empty($q2) || count($q2) != 0){
 			//LOG::info('Survey Ans2 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q2;
-			$surveyAnswers->answer = $ans2;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q2, $ans2);
 		}
 		if(!empty($q3) || count($q3) != 0){
 			//LOG::info('Survey Ans3 ');
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q3;
-			$surveyAnswers->answer = $ans3;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q3, $ans3);
 		}
 		if(!empty($q4) || count($q4) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q4;
-			$surveyAnswers->answer = $ans4;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q4, $ans4);	
 		}
 		if(!empty($q5) || count($q5) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q5;
-			$surveyAnswers->answer = $ans5;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q5, $ans5);
 		}
 		if(!empty($q6) || count($q6) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q6;
-			$surveyAnswers->answer = $ans6;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q6, $ans6);
 		}
 		if(!empty($q7) || count($q7) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q7;
-			$surveyAnswers->answer = $ans7;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q7, $ans7);	
 		}
 		if(!empty($q8) || count($q8) != 0){
-			$surveyAnswers = new SurveyAnswers();
-			$surveyAnswers->user_id = $userId;
-			$surveyAnswers->survey_quest_id = $q8;
-			$surveyAnswers->answer = $ans8;
-			$surveyAnswers->save();	
+			$surveyAns = $this->createAnswer($userId, $q8, $ans8);
 		}
 		
 		return view('survey_response_confirmation');
+    }
+
+    protected function createAnswer($userId, $question, $answer)
+    {
+    	$surveyAnswers = new SurveyAnswers();
+		$surveyAnswers->user_id = $userId;
+		$surveyAnswers->survey_quest_id = $question;
+		$surveyAnswers->answer = $answer;	
+		$surveyAnswers->save();	
+		return $surveyAnswers;
     }
 
 	protected function saveNewSurvey($title, $desc)
