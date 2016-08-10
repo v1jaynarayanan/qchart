@@ -72,7 +72,7 @@ class AuthController extends Controller
             Auth::logout();
             //send account verification email
             $accVerify = $this->sendAccountVerificationEmail($request);
-            return Redirect::back()->with('status', 'Your account is inactive. Please activate by clicking the link sent to you by email');
+            return Redirect::back()->with('status', 'Your account is inactive. Please activate by clicking the link sent to you by email.');
         }
     }
 

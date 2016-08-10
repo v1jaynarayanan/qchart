@@ -12,7 +12,7 @@ class WelcomePageTest extends TestCase
              ->see('WELCOME TO QCHART');
     }
 
-    public function testClickLogin()
+    public function testShouldShowLoginPage()
     {
         $this->visit('/')
              ->click('Login')
@@ -20,7 +20,7 @@ class WelcomePageTest extends TestCase
              ->see('Login');
     }
 
-    public function testClickRegister()
+    public function testShouldShowRegisterPage()
     {
         $this->visit('/')
              ->click('Register')
