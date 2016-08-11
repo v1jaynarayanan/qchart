@@ -528,7 +528,15 @@ class SurveyController extends Controller
 		} else {
 			foreach ($user as $key => $value) {
 				$userId = $value->id;
-				//LOG::info('User Id'.$userId);
+				if (!empty($name) && count($name) > 0 && $name != 'Anonymous'){
+					$existingUser = User::where('email','=',$value->email)->first();
+					LOG::info('Update user name from Anonymous to '.$name);
+					$existingUser->name = $name;
+					$existingUser->save();
+				} else {
+					LOG::info('User name provided is Anonymous');
+				}
+			
 			}
 		}
 

@@ -311,3 +311,6 @@ function updateDataset(target, chart, label) {
     }
     chart.update();
 }
+
+// Styled select menu
+$('.selectmenu').selectmenu();
