@@ -17,7 +17,7 @@
             @if (isset($surveyDetails) && !empty($surveyDetails))
                 @foreach ($surveyDetails as $i => $value) 
                     <div class="clearfix">
-                        <h3>Welcome <b> {{ Auth::user()->name }} </b>. Please fill out your answers for the survey:</h3><h2 class="fL">{{ $value->title }}
+                        <h3>Welcome <b>{{ Auth::user()->name }}</b>. Please fill out your answers for the survey:</h3><h2 class="fL">{{ $value->title }}
                     </div>
                 @endforeach         
             @endif
@@ -35,7 +35,7 @@
                                 <td>{{ ++$i }}</td>
                                 <td><label class="qnsLabel">{{ $value->question }} <input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
                                 <td><div class="form-row new-question">
-                                        <select name="answer[]" id="answer{{ $i }}"> 
+                                        <select class="selectmenu" name="answer[]" id="answer{{ $i }}"> 
                                                  <option value="1">1</option>
                                                  <option value="2">2</option>
                                                  <option value="3">3</option>

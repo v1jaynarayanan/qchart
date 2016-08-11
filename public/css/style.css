@@ -501,6 +501,27 @@ table.table th {
 .form-row:hover .remove-question {
 	display: block;
 }
+
+select:focus {outline: none;}
+select {
+	border:1px solid #406764;
+	padding:3px 5px;
+	min-width: 60px;
+}
+.ui-selectmenu-button.ui-button {
+	outline: none;
+	border-radius: 0px !important;
+	padding:7px 10px;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+	background-color: #9ed070;
+	border:1px solid #9ed070;
+}
+.ui-selectmenu-menu .ui-menu {
+	max-height: 120px;
+}
+.group.ui-widget {margin-right: 0px; margin-left: 0px;}
+
 /* Responsive */
 @media (max-width: 700px) {
 	h1 {padding-bottom: 30px;}
