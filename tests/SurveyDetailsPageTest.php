@@ -115,12 +115,14 @@ class SurveyDetailsPageTest extends TestCase
         
         SurveyAnswers::create([
             'user_id' => '1',
+            'answered_by' => 'User 1',
             'survey_quest_id' => $question1->id,
             'answer' => '60',
         ]);
         
         SurveyAnswers::create([
             'user_id' => '2',
+            'answered_by' => 'User 2',
             'survey_quest_id' => $question1->id,
             'answer' => '60',
         ]);

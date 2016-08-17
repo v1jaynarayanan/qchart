@@ -35,7 +35,7 @@
                         
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td><label class="qnsLabel">{{ $value->question }} <input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
+                                <td><label class="required-label"><label class="qnsLabel">{{ $value->question }} </label><input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
                                 <td><div class="form-row new-question">
                                         <select class="selectmenu" name="answer[]" id="answer{{ $i }}"> 
                                                  <option value="1">1</option>
@@ -58,8 +58,26 @@
              </table>
              <table class="table">
                 <tr>
-                    <th>Your Name: <input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}" required></th>
-                    <th>Your Email: <input id="email" type="email" class="inputMaterial" name="email" value="{{ $email }}" required></th>
+                    <th>Your Name: <input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}"></th>
+                    <th><label class="required-label">Your Email:</label><input id="email" type="email" class="inputMaterial" name="email" value="{{ $email }}" required></th>
+                </tr>
+                <tr>
+                    <td><input id="password" type="password" class="inputMaterial" name="password" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="password">Password</label>
+                        @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
+                    </td>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><b>If the name is left blank then your response will be sent anonymously. Please enter name and password if you wish to register with QChart.</b></td>
                 </tr>
             </table>        
              <div class="group clearfix">

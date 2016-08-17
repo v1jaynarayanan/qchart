@@ -45,6 +45,60 @@ class SurveyResponsePageTest extends TestCase
         $this->see('Please fill out your answers for the survey');
     }
 
+    public function testShouldCompleteSurveyResponseForActiveUserAsAnonymous()
+    {
+        $emailLogin = EmailLogin::createForEmail('newuser5@user.com');
+        $user = factory(App\User::class)->create([
+                    'name' => 'newuser5',
+                    'email' => 'newuser5@user.com',
+                    'role_id' => 0,
+                    'password' => Hash::make('passw0RD'),
+                    'confirmed' => 0,
+                    'admin' => 0]);
+        
+        $survey = factory(App\Survey::class)->create([
+                    'user_id' => $user->id,
+                    'title' => 'Test Survey',
+                    'slug' => 'Test Survey',
+                    'description' => 'Test Survey',
+                    'status' => 1]);
+
+        $s1 = SurveyQuestions::create([
+            'user_id' => $user->id,
+            'survey_id' => $survey->id,
+            'question' => 'Test Q1',
+        ]);
+
+        $s2 = SurveyQuestions::create([
+            'user_id' => $user->id,
+            'survey_id' => $survey->id,
+            'question' => 'Test Q2',
+        ]);
+
+        
+        $response = $this->action('GET', 'Auth\SurveyAuthController@activeUserCompleteSurvey', ['surveyId' => $survey->id, 'token' => $emailLogin->token]);
+
+        $this->see('Please fill out your answers for the survey');
+        
+        $ans = array('answer1'=>'1');
+        $ans = array_add($ans, 'answer2','10');
+
+        $this->actingAs($user);
+        $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'question2' => 2, 'answer' => $ans]);
+        $this->see('Thank you for submitting the response. Your response has been successfully saved.');
+
+        $sa1 = SurveyAnswers::where('survey_quest_id','=',$s1->id)
+                     ->where('user_id','=',$user->id)->first();
+        $this->assertEquals(1,$sa1->answer);   
+        $this->assertEquals('Anonymous',$sa1->answered_by);      
+        
+        $sa2 = SurveyAnswers::where('survey_quest_id','=',$s2->id)
+                     ->where('user_id','=',$user->id)->first();
+        $this->assertEquals(10,$sa2->answer);
+        $this->assertEquals('Anonymous',$sa2->answered_by);      
+        
+    }
+
     public function testShouldCompleteSurveyResponseForActiveUser()
     {
         $emailLogin = EmailLogin::createForEmail('newuser5@user.com');
@@ -125,40 +179,48 @@ class SurveyResponsePageTest extends TestCase
         $ans = array_add($ans, 'answer8','1');
 
         $this->actingAs($user);
-        $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'question2' => 2, 'question3' => 3, 'question4' => 4, 'question5' => 5, 'question6' => 6, 'question7' => 7, 'question8' => 8, 'answer' => $ans]);
+        $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'question2' => 2, 'question3' => 3, 'question4' => 4, 'question5' => 5, 'question6' => 6, 'question7' => 7, 'question8' => 8, 'answer' => $ans, 'answered_by' => 'User1']);
         $this->see('Thank you for submitting the response. Your response has been successfully saved.');
 
         $sa1 = SurveyAnswers::where('survey_quest_id','=',$s1->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(1,$sa1->answer);      
+        $this->assertEquals('User1',$sa1->answered_by); 
         
         $sa2 = SurveyAnswers::where('survey_quest_id','=',$s2->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(10,$sa2->answer);
+        $this->assertEquals('User1',$sa2->answered_by);
 
         $sa3 = SurveyAnswers::where('survey_quest_id','=',$s3->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(9,$sa3->answer);
+        $this->assertEquals('User1',$sa3->answered_by);
 
         $sa4 = SurveyAnswers::where('survey_quest_id','=',$s4->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(4,$sa4->answer);
+        $this->assertEquals('User1',$sa4->answered_by);
 
         $sa5 = SurveyAnswers::where('survey_quest_id','=',$s5->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(2,$sa5->answer);      
+        $this->assertEquals('User1',$sa5->answered_by);
         
         $sa6 = SurveyAnswers::where('survey_quest_id','=',$s6->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(7,$sa6->answer);
+        $this->assertEquals('User1',$sa6->answered_by);
 
         $sa7 = SurveyAnswers::where('survey_quest_id','=',$s7->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(10,$sa7->answer);
+        $this->assertEquals('User1',$sa7->answered_by);
 
         $sa8 = SurveyAnswers::where('survey_quest_id','=',$s8->id)
                      ->where('user_id','=',$user->id)->first();
         $this->assertEquals(1,$sa8->answer);
+        $this->assertEquals('User1',$sa8->answered_by);
     }
 
     public function testShouldReturnAlreadyAnsweredForActiveUser()
@@ -198,7 +260,8 @@ class SurveyResponsePageTest extends TestCase
 
         $sa1 = SurveyAnswers::where('survey_quest_id','=',$s1->id)
                      ->where('user_id','=',$user->id)->first();
-        $this->assertEquals(5,$sa1->answer);      
+        $this->assertEquals(5,$sa1->answer);   
+        $this->assertEquals('Anonymous',$sa1->answered_by);    
         
         $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'answer' => $ans]);
 

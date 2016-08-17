@@ -107,7 +107,7 @@ class SurveyController extends Controller
 		//get answers for survey questions answered by users
 		foreach($userColl as $ukey=>$value){		
 			//db query to get all answers for a particular survey		
-				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$questColl.') AND `SA`.`user_id` = '.$value->id.''));
+				$answersColl = collect(DB::select('SELECT `SA`.`answer`, `SA`.`survey_quest_id`, `SA`.`answered_by` FROM `survey_answers` AS `SA` WHERE `SA`.`survey_quest_id` IN ('.$questColl.') AND `SA`.`user_id` = '.$value->id.''));
 				
 				if (!empty($answersColl) || count($answersColl) != 0)
 				{
@@ -120,7 +120,7 @@ class SurveyController extends Controller
 					if(!empty($ansdata))
 					{
 						//generate chart data
-						$sgraphDataset[] = array('label'=>$value->name,
+						$sgraphDataset[] = array('label'=>$ans->answered_by,
 											'backgroundColor'=>$colourArr[$ukey],
 											'borderColor'=>"rgba(179,181,198,1)",
 											'pointBackgroundColor'=>"rgba(179,181,198,1)",
@@ -356,6 +356,13 @@ class SurveyController extends Controller
 				!empty($q6) || !empty($q7) || !empty($q8)){
 				if(!empty($title) && !empty($desc)){
 					
+					//check survey with the same title exists
+					$dupSurvey = Survey::where('title', '=', $title)->get();
+					if (!empty($dupSurvey) && count($dupSurvey) != 0) {
+						LOG::error('Survey with the same title already exists.');
+  						return Redirect::back()->withInput()->with('status', 'Survey with the same title already exists.');
+					}
+
 					//create survey
 					$survey = new Survey();
 					$survey = $this->saveNewSurvey($title, $desc);
@@ -402,8 +409,15 @@ class SurveyController extends Controller
 		$q5 = $request->input('question5');
 		$q6 = $request->input('question6');
 		$q7 = $request->input('question7');
-		$q8 = $request->input('question8');	
+		$q8 = $request->input('question8');
+		$answered_by = $request->input('name');	
+		//LOG::info('Response answered by'.$answered_by);
 		
+		if(empty($answered_by) || count($answered_by) == 0 ) {
+			LOG::info('Name is Anonymous');
+			$answered_by = 'Anonymous';
+		}
+
         $i=0;
         $ans1=0;$ans2=0;$ans3=0;$ans4=0;
         $ans5=0;$ans6=0;$ans7=0;$ans8=0;
@@ -447,31 +461,31 @@ class SurveyController extends Controller
   		$userId = Auth::user()->id;
 		if(!empty($q1) || count($q1) != 0){
 			LOG::info('Survey Ans1 '.$ans1);
-			$surveyAns = $this->createAnswer($userId, $q1, $ans1);
+			$surveyAns = $this->createAnswer($userId, $q1, $ans1, $answered_by);
 		}
 		if(!empty($q2) || count($q2) != 0){
 			LOG::info('Survey Ans2 '.$ans2);
-			$surveyAns = $this->createAnswer($userId, $q2, $ans2);
+			$surveyAns = $this->createAnswer($userId, $q2, $ans2, $answered_by);
 		}
 		if(!empty($q3) || count($q3) != 0){
 			//LOG::info('Survey Ans3 ');
-			$surveyAns = $this->createAnswer($userId, $q3, $ans3);
+			$surveyAns = $this->createAnswer($userId, $q3, $ans3, $answered_by);
 		}
 		if(!empty($q4) || count($q4) != 0){
-			$surveyAns = $this->createAnswer($userId, $q4, $ans4);	
+			$surveyAns = $this->createAnswer($userId, $q4, $ans4, $answered_by);	
 		}
 		if(!empty($q5) || count($q5) != 0){
-			$surveyAns = $this->createAnswer($userId, $q5, $ans5);	
+			$surveyAns = $this->createAnswer($userId, $q5, $ans5, $answered_by);	
 		}
 		if(!empty($q6) || count($q6) != 0){
-			$surveyAns = $this->createAnswer($userId, $q6, $ans6);	
+			$surveyAns = $this->createAnswer($userId, $q6, $ans6, $answered_by);	
 		}
 		if(!empty($q7) || count($q7) != 0){
-			$surveyAns = $this->createAnswer($userId, $q7, $ans7);	
+			$surveyAns = $this->createAnswer($userId, $q7, $ans7, $answered_by);	
 		}
 		if(!empty($q8) || count($q8) != 0){
 			LOG::info('Survey Ans8 '.$ans8);
-			$surveyAns = $this->createAnswer($userId, $q8, $ans8);	
+			$surveyAns = $this->createAnswer($userId, $q8, $ans8, $answered_by);	
 		}
 
 		return view('survey_response_confirmation');
@@ -492,6 +506,7 @@ class SurveyController extends Controller
 		$q8 = $request->input('question8');	
 		$name = $request->input('name');
 		$email = $request->input('email');
+		$pwd = $request->input('password');
 		
 		if(empty($name) || count($name) == 0 ) {
 			LOG::info('Name is Anonymous');
@@ -513,6 +528,7 @@ class SurveyController extends Controller
 		$user = User::where('email', $email)->get();
 		//LOG::info('User'.$user);
 		$userId=null;
+		$newUser=false;
 		
 		if(empty($user) || count($user) ==0) {
 			//register user
@@ -522,8 +538,13 @@ class SurveyController extends Controller
 			$user->email=$email;
 			$user->confirmed=0;
 			$user->admin=0;
+			$user->password=bcrypt($pwd);
 			$user->save();	
 			$userId=$user->id;
+			if (!empty($name) && count($name) > 0 && $name != 'Anonymous'){
+				$newUser=true;
+			}	
+
 			LOG::info('New user created'.$userId);
 		} else {
 			foreach ($user as $key => $value) {
@@ -583,42 +604,46 @@ class SurveyController extends Controller
   		}
 
 		if(!empty($q1) || count($q1) != 0){
-			//LOG::info('Survey Ans1 ');
-			$surveyAns = $this->createAnswer($userId, $q1, $ans1);
+			$surveyAns = $this->createAnswer($userId, $q1, $ans1, $name);
 		}
 		if(!empty($q2) || count($q2) != 0){
-			//LOG::info('Survey Ans2 ');
-			$surveyAns = $this->createAnswer($userId, $q2, $ans2);
+			$surveyAns = $this->createAnswer($userId, $q2, $ans2, $name);
 		}
 		if(!empty($q3) || count($q3) != 0){
-			//LOG::info('Survey Ans3 ');
-			$surveyAns = $this->createAnswer($userId, $q3, $ans3);
+			$surveyAns = $this->createAnswer($userId, $q3, $ans3, $name);
 		}
 		if(!empty($q4) || count($q4) != 0){
-			$surveyAns = $this->createAnswer($userId, $q4, $ans4);	
+			$surveyAns = $this->createAnswer($userId, $q4, $ans4, $name);	
 		}
 		if(!empty($q5) || count($q5) != 0){
-			$surveyAns = $this->createAnswer($userId, $q5, $ans5);
+			$surveyAns = $this->createAnswer($userId, $q5, $ans5, $name);
 		}
 		if(!empty($q6) || count($q6) != 0){
-			$surveyAns = $this->createAnswer($userId, $q6, $ans6);
+			$surveyAns = $this->createAnswer($userId, $q6, $ans6, $name);
 		}
 		if(!empty($q7) || count($q7) != 0){
-			$surveyAns = $this->createAnswer($userId, $q7, $ans7);	
+			$surveyAns = $this->createAnswer($userId, $q7, $ans7, $name);	
 		}
 		if(!empty($q8) || count($q8) != 0){
-			$surveyAns = $this->createAnswer($userId, $q8, $ans8);
+			$surveyAns = $this->createAnswer($userId, $q8, $ans8, $name);
 		}
 		
+		//send registration activation link if user name is not anonymous
+		if($newUser == true) {
+		 	LOG::info('Registration confirmation email sent');
+		 	$authController = new AuthController();
+		 	$authController->sendAccountVerificationEmail($request);  
+		}
 		return view('survey_response_confirmation');
     }
 
-    protected function createAnswer($userId, $question, $answer)
+    protected function createAnswer($userId, $question, $answer, $answered_by)
     {
     	$surveyAnswers = new SurveyAnswers();
 		$surveyAnswers->user_id = $userId;
 		$surveyAnswers->survey_quest_id = $question;
 		$surveyAnswers->answer = $answer;	
+		$surveyAnswers->answered_by = $answered_by;
 		$surveyAnswers->save();	
 		return $surveyAnswers;
     }
