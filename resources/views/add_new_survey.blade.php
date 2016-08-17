@@ -12,16 +12,16 @@
 			{{ csrf_field() }}
 			<div class="formMainRow">
 				<div class="form-row">
-					<label>Survey Title</label>
-					<input type="text" class="textBox" id="surveyTitle" name="surveyTitle"/>
+					<label class="required-label">Survey Title</label>
+					<input type="text" class="textBox" id="surveyTitle" name="surveyTitle" value="{{ old('surveyTitle') }}"/>
 				</div>
 				<div class="form-row">
-					<label>Survey Description</label>
-					<input type="text" class="textBox" id="surveyDescription" name="surveyDescription"/>
+					<label class="required-label">Survey Description</label>
+					<input type="text" class="textBox" id="surveyDescription" name="surveyDescription" value="{{ old('surveyDescription') }}"/>
 				</div>
 				<div class="form-row new-question">
-					<label class="qnsLabel">New Question <span class="qns-count">1</span></label>
-					<input type="text" class="textBox" name="question1"/>
+					<label class="qnsLabel required-label">New Question <span class="qns-count">1</span></label>
+					<input type="text" class="textBox" name="question1" value="{{ old('question1') }}"/>
 				</div>
 				<div id="addNewQuestionDiv">
 					<a href="javascript:void(0);" id="addNewQuestion"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add new question</a>

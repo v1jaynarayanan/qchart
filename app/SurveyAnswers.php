@@ -20,7 +20,7 @@ class SurveyAnswers extends Model {
      * @var array
      */
     protected $fillable = [
-        'user_id', 'survey_quest_id', 'answer',
+        'user_id', 'survey_quest_id', 'answer', 'answered_by'
     ];
 
 	public function surveyquestions()

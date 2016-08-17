@@ -55,4 +55,33 @@ class NewSurveyPageTest extends TestCase
              ->click('Create New Survey')
              ->see('Add New Survey');
     }
+
+    public function testShouldNotCreateSurveyWithDuplicateTitle() 
+    {
+
+        $user = factory(App\User::class)->create([
+                    'name' => 'newuser4',
+                    'email' => 'newuser4@user.com',
+                    'role_id' => 0,
+                    'password' => Hash::make('passw0RD'),
+                    'confirmed' => 0,
+                    'admin' => 0]);
+        
+        $survey = factory(App\Survey::class)->create([
+                    'user_id' => $user->id,
+                    'title' => 'Test Survey Title',
+                    'slug' => 'Test Survey',
+                    'description' => 'Test Survey',
+                    'status' => 1]);
+
+        $this->actingAs($user)
+             ->visit('/showNewSurveyPage')
+             ->see('ADD NEW SURVEY')
+             ->type('Test Survey Title', 'surveyTitle')
+             ->type('Test Survey Description', 'surveyDescription')
+             ->type('Test Question 1', 'question1')
+             ->press('addNewSurvey')
+             ->see('Survey with the same title already exists');
+
+    }
 }

@@ -122,7 +122,7 @@ class AuthController extends Controller
      *  Send Account verification email
      *
      */
-    protected function sendAccountVerificationEmail(Request $request)
+    public function sendAccountVerificationEmail(Request $request)
     {
         $email = $request->input('email');
         // delete any old tokens

@@ -33,7 +33,7 @@
 
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td><label class="qnsLabel">{{ $value->question }} <input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
+                                <td><label class="required-label"><label class="qnsLabel">{{ $value->question }} </label><input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
                                 <td><div class="form-row new-question">
                                         <select class="selectmenu" name="answer[]" id="answer{{ $i }}"> 
                                                  <option value="1">1</option>
@@ -55,6 +55,13 @@
                         @endforeach         
                     @endif
              </table>
+             <table class="table">
+                <tr>
+                    <th>Your Name:</th>
+                    <th><input id="name" type="text" class="inputMaterial" name="name" value="{{ Auth::user()->name }}" required></th>
+                </tr>
+            </table> 
+            <div><b>If the name is left blank then your response will be sent anonymously.</b></div>
              <div class="group clearfix">
                 <button type="submit" class="btn fR" id="submitBtn">
                   <i class="fa fa-btn fa-user"></i> Submit Answers
