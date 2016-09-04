@@ -276,6 +276,12 @@ count+1)+'" /><span class="remove-question"><i class="fa fa-times" aria-hidden="
     });
 
 
+// Table Responsive
+    $('.table td').each(function(index){
+        $(this).wrapInner('<div />'); // New code
+        var $th = $(this).parents('.table').find('tr:first-child th').eq($(this).index()).text();
+        $(this).attr('data-title', $th);
+    });
 
 });
 
@@ -314,3 +320,4 @@ function updateDataset(target, chart, label) {
 
 // Styled select menu
 $('.selectmenu').selectmenu();
+

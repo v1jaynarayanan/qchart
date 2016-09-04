@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use App\Survey;
 use App\SurveyAnswers;
+use App\SurveyResponses;
 use App\User;
 use Auth;
 use Mail;
@@ -33,7 +34,8 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()){
-            $surveys = $this->getSurveysCreatedByUser();  
+            $surveys = $this->getSurveysCreatedByUser();
+
             return view('dashboard')->with('surveys', $surveys->paginate(5));     
         }
     }
@@ -46,9 +48,36 @@ class HomeController extends Controller
     {
         if (Auth::check()){
             $surveyQuestions = Survey::find($surveyId)->surveyquestions;   
-            $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId);  
+            $surveyDetails = $this->getSurveyDetailsForSurvey($surveyId); 
+
+            //get users to whom the survey was sent to
+            $surveyResponses = SurveyResponses::where('survey_id', $surveyId)->get();
+            $users = array();
+            $sentTo = 0;
+            $numOfResponses = 0;
+            
+            if(count($surveyResponses) > 0 ){
+                foreach ($surveyResponses as $key => $value) {
+                    $sentTo = $sentTo + 1;
+                    if ($value->status == '1'){
+                        $numOfResponses = $numOfResponses + 1;
+                    }
+
+                    $user = $this->getUserDetailsForSurvey($value->email);
+                    
+                    if (count($user) > 0){
+                        array_push($users, $user);
+                    }
+                }   
+            }
+            //LOG::info($users);
+            //LOG::info('Total users invited to fillout survey'.$sentTo);
+            //LOG::info('Number of Responses'.$numOfResponses);
             return view('survey_details')->with('surveyDetails', $surveyDetails)
-                                         ->with('surveyQuestions', $surveyQuestions);     
+                                         ->with('surveyQuestions', $surveyQuestions)
+                                         ->with('users', $users)
+                                         ->with('sentTo', $sentTo)
+                                         ->with('numOfResponses', $numOfResponses);     
         }
     }
 
@@ -139,23 +168,19 @@ class HomeController extends Controller
                 }
                 break;
             }
-            
-            //LOG::info('Admin users email'.Auth::user()->email);
-            //LOG::info('Users who have answered this survey');
-            //LOG::info(print_r($users, true));
 
             $url = $this->createGraphLinkForEmail($surveyId);  
 
             foreach ($users as $key => $value) {
                 $user = User::find($value);
                 if(!empty($user) && !count($user) == 0){
-                    $emailSent = $this->emailRequest($url, $user->email, $survey->title);
+                    $emailSent = $this->emailRequest($url, $user->email, $survey->title, $labels);
                     //LOG::info('Email sent to '. $user->email);
                 }
             }
 
             //inform admin user
-            $emailSent = $this->emailRequest($url, Auth::user()->email, $survey->title);
+            $emailSent = $this->emailRequest($url, Auth::user()->email, $survey->title, $labels);
             //LOG::info('Email sent to Admin user');
 
             return redirect('/home');     
@@ -169,9 +194,9 @@ class HomeController extends Controller
                 ]);
     }
 
-    public function emailRequest($url, $value, $surveyTitle)
+    public function emailRequest($url, $value, $surveyTitle, $labels)
     {
-       return Mail::send('email_survey_closed', ['url' => $url, 'surveyTitle' => $surveyTitle], function ($m) use ($value) {
+       return Mail::send('email_survey_closed', ['url' => $url, 'surveyTitle' => $surveyTitle, 'questions' => $labels], function ($m) use ($value) {
                 $m->from('noreply@qchart.com', 'QChart');
                 $m->to($value)->subject('QChart - Survey Closed. Please view survey results.');
         }); 
@@ -190,4 +215,11 @@ class HomeController extends Controller
     {
         return DB::select('SELECT `survey`.`id` AS `survey_id`, `survey`.`title`, `survey`.`description`, `users`.`id`, `users`.`name`, `survey`.`status`, `survey`.`created_at`, `survey`.`updated_at` FROM `survey` AS `survey`, `users` AS `users` WHERE `survey`.`user_id` = `users`.`id` AND `survey`.`id` = '.$surveyId.'');            
     }   
+
+    protected function getUserDetailsForSurvey($email){
+        return $user = DB::table('users')
+                    ->join('survey_responses', 'users.email', '=', 'survey_responses.email')
+                    ->select('users.name', 'users.email', 'survey_responses.status')
+                    ->where('survey_responses.email', '=', $email)->get();
+    }
 }

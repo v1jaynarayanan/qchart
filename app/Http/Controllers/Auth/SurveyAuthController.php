@@ -80,7 +80,7 @@ class SurveyAuthController extends Controller
         
         $questColl = $this->getSurveyQuestions($surveyId);
 
-        return view('/activeuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl);
+        return view('/activeuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl)->with('surveyId', $surveyId);
 
     }   
 
@@ -100,7 +100,8 @@ class SurveyAuthController extends Controller
         $questColl = $this->getSurveyQuestions($surveyId);
 
         return view('/newuser_survey_complete')->with('surveyDetails',$surveyDetails)->with('surveyQuestions',$questColl)
-            ->with('email', $email);
+            ->with('email', $email)
+            ->with('surveyId', $surveyId);
     }   
 
     

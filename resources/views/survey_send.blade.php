@@ -17,7 +17,7 @@
 		           	<div>
 						<label for="email">E-Mail Addresses</label>
 							
-						<input id="email" type="email" class="inputMaterial" name="email" value="{{  old('email') }}" size="500" required>
+						<input id="email" type="textbox" class="inputMaterial" name="email" value="{{  old('email') }}" size="500" required>
 						<span class="highlight"></span>
 						<span class="bar"></span>
 					</div>

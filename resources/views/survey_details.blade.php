@@ -36,9 +36,9 @@
                         <td>{{ $value->updated_at }}</td>
                         @if (Auth::user()->role_id == 0)
                         <td>
-                            <a href="{{URL::to('/')}}/drawGraph/{{$value->survey_id}}" class="btn survey-btn">Generate Graph</a>
+                            <a href="{{URL::to('/')}}/drawGraph/{{$value->survey_id}}" class="btn survey-btn">Generate Graph</a><br>
                             @if ($value->status == 1)
-                                <a href="{{URL::to('/')}}/sendSurvey/{{$value->survey_id}}" class="btn survey-btn">Send Survey</a>
+                                <a href="{{URL::to('/')}}/sendSurvey/{{$value->survey_id}}" class="btn survey-btn">Send Survey</a> <br>
 
                                 <a href="#" class="btn" id="deleteSelected">Close Survey</a>
                             @endif 
@@ -49,25 +49,51 @@
                 @endforeach
             @endif        
         </table>
-        
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Question</th>
-                <th>Created Date Time</th>
-                <th>Updated Date Time</th>
-            </tr>
+
+        @if (isset($users) && !empty($users)) 
             @if (isset($surveyQuestions) && !empty($surveyQuestions))
-                @foreach ($surveyQuestions as $i => $value) 
-                <tr>
-                    <td>{{ $value->id }}</td>
-                    <td>{{ $value->question }}</td>
-                    <td>{{ $value->created_at }}</td>
-                    <td>{{ $value->updated_at }}</td>
-                </tr>   
-                @endforeach
+                <h2>Survey Progress</h2><br>
+                <progress class="progress" value="{{ $numOfResponses }}" max="{{ $sentTo }}"></progress> <BR>
+                
+                <table class="table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Question</th>
+                        <th>Created Date Time</th>
+                        <th>Updated Date Time</th>
+                    </tr>
+                        @foreach ($surveyQuestions as $i => $value) 
+                        <tr>
+                            <td>{{ $value->id }}</td>
+                            <td>{{ $value->question }}</td>
+                            <td>{{ $value->created_at }}</td>
+                            <td>{{ $value->updated_at }}</td>
+                        </tr>   
+                        @endforeach
+                </table>
             @endif  
-        </table>
+
+            <h2>Survey Participants</h2><br>    
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+                
+                    @foreach ($users as $i => $user) 
+                        @foreach ($user as $j => $value)
+                        <tr>
+                            <td>{{ ++$i }}</td>
+                            <td>{{ $value->name }}</td>
+                            <td>{{ $value->email }}</td>
+                            <td>{{ $value->status == 1 ? 'Responded' : 'Yet to respond' }}</td>
+                        </tr> 
+                        @endforeach  
+                    @endforeach
+            </table>
+        @endif
 
         <div id="popUpOverlay">
             <div id="popUp">
