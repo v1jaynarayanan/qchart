@@ -23,3 +23,11 @@ $factory->define(App\Survey::class, function (Faker\Generator $faker) {
         'status' => $faker->boolean,
     ];
 });
+
+$factory->define(App\SurveyResponses::class, function (Faker\Generator $faker) {
+    return [
+        'survey_id' => $faker->randomDigit,
+        'email' => $faker->safeEmail,
+        'status' => $faker->boolean,
+    ];
+});

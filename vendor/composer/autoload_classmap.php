@@ -519,6 +519,8 @@ return array(
     'SurveyAnswersTableSeeder' => $baseDir . '/database/seeds/surveyAnswersTableSeeder.php',
     'SurveyQuestions' => $baseDir . '/database/migrations/2016_05_29_080337_survey_questions.php',
     'SurveyQuestionsTableSeeder' => $baseDir . '/database/seeds/surveyQuestionsTableSeeder.php',
+    'SurveyResponses' => $baseDir . '/database/migrations/2016_08_28_091933_survey_responses.php',
+    'SurveyResponsesTableSeeder' => $baseDir . '/database/seeds/SurveyResponsesTableSeeder.php',
     'SurveyTableSeeder' => $baseDir . '/database/seeds/surveyTableSeeder.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',

@@ -67,6 +67,7 @@
                   <i class="fa fa-btn fa-user"></i> Submit Answers
                 </button>
              </div>
+             <input type="hidden" name="surveyId" value="{{ $surveyId }}">
         </form>      
     </div>
 

@@ -10,6 +10,7 @@ use App\User;
 use App\Survey;
 use App\SurveyQuestions;
 use App\SurveyAnswers;
+use App\SurveyResponses;
 use App\EmailLogin;
 use Validator;
 use Auth;
@@ -263,15 +264,15 @@ class SurveyController extends Controller
 
 	public function sendSurveyEmail(Request $request)
 	{
-		$email = $request->input('email');
+		$email = trim($request->input('email'));
 		$surveyId = $request->input('surveyId');
 		
 		$emailIds = explode(',', $email);
-
+		//LOG::info('Emails Exploded'.$emailIds);
 		foreach($emailIds as $email) 
 		{
-    		$validator = Validator::make(
-      		 	['email' => $email],
+			$validator = Validator::make(
+      		 	['email' => trim($email)],
         		['email' => 'required|email']
     		);
     		
@@ -286,7 +287,7 @@ class SurveyController extends Controller
 		
 		foreach ($emailIds as $key => $value) {
 
-			$userStatusArr = $authController->getUserStatus($value);
+			$userStatusArr = $authController->getUserStatus(trim($value));
 
 			$userStatus=null;
 			foreach ($userStatusArr as $skey => $svalue) {
@@ -296,21 +297,36 @@ class SurveyController extends Controller
 			if (!empty($userStatus) && $userStatus == 1) {
 
 				LOG::info('Active User');
-				$oldTokens = EmailLogin::deleteOldTokens($value);
-				$emailLogin = EmailLogin::createForEmail($value);
+				$oldTokens = EmailLogin::deleteOldTokens(trim($value));
+				$emailLogin = EmailLogin::createForEmail(trim($value));
 				$url = $this->createLinkForEmail($surveyId, $emailLogin->token, null);	
 
-       			$emailSent = $this->emailRequest($url, $value);
+       			$emailSent = $this->emailRequest($url, trim($value));
 			}
 			else {
 				
-				$url = $this->createLinkForEmail($surveyId, null, $value);	
+				$url = $this->createLinkForEmail($surveyId, null, trim($value));	
 
-       			$emailSent = $this->emailRequest($url, $value);
+       			$emailSent = $this->emailRequest($url, trim($value));
 			}
 			
+			$this->createSurveyResponseRecord($surveyId, $email);
 		}
 		return view('survey_email_confirmation');
+	}
+
+	public function createSurveyResponseRecord($survey_id, $email) {
+		$recordExists = SurveyResponses::where('survey_id','=',$survey_id)
+									   ->where('email','=',$email)->get();
+		if(!count($recordExists) > 0) {
+			return SurveyResponses::create([
+				'survey_id' => $survey_id,
+            	'email' => $email,
+            	'status' => '0'
+        	]);	
+		} else {
+			return $recordExists;
+		}
 	}
 
 	public function createLinkForEmail($surveyId, $token, $email)
@@ -411,6 +427,7 @@ class SurveyController extends Controller
 		$q7 = $request->input('question7');
 		$q8 = $request->input('question8');
 		$answered_by = $request->input('name');	
+		$surveyId = $request->input('surveyId');	
 		//LOG::info('Response answered by'.$answered_by);
 		
 		if(empty($answered_by) || count($answered_by) == 0 ) {
@@ -488,8 +505,14 @@ class SurveyController extends Controller
 			$surveyAns = $this->createAnswer($userId, $q8, $ans8, $answered_by);	
 		}
 
+		$responseUpdate = $this->updateSurveyResponsesRecord($surveyId, Auth::user()->email);
 		return view('survey_response_confirmation');
 		
+    }
+
+    public function updateSurveyResponsesRecord($surveyId, $email) {
+    	return SurveyResponses::where('survey_id', $surveyId)->where('email', $email)
+            ->update(['status' => '1']);
     }
 
     public function newUserSurveyResponse(Request $request)
@@ -507,6 +530,7 @@ class SurveyController extends Controller
 		$name = $request->input('name');
 		$email = $request->input('email');
 		$pwd = $request->input('password');
+		$surveyId = $request->input('surveyId');
 		
 		if(empty($name) || count($name) == 0 ) {
 			LOG::info('Name is Anonymous');
@@ -634,6 +658,9 @@ class SurveyController extends Controller
 		 	$authController = new AuthController();
 		 	$authController->sendAccountVerificationEmail($request);  
 		}
+
+		$responseUpdate = $this->updateSurveyResponsesRecord($surveyId, $email);
+
 		return view('survey_response_confirmation');
     }
 

@@ -809,6 +809,8 @@ class ComposerStaticInitf9c04f308f67579d6ce2785ca0219561
         'SurveyAnswersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/surveyAnswersTableSeeder.php',
         'SurveyQuestions' => __DIR__ . '/../..' . '/database/migrations/2016_05_29_080337_survey_questions.php',
         'SurveyQuestionsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/surveyQuestionsTableSeeder.php',
+        'SurveyResponses' => __DIR__ . '/../..' . '/database/migrations/2016_08_28_091933_survey_responses.php',
+        'SurveyResponsesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/SurveyResponsesTableSeeder.php',
         'SurveyTableSeeder' => __DIR__ . '/../..' . '/database/seeds/surveyTableSeeder.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',

@@ -179,7 +179,7 @@ class SurveyResponsePageTest extends TestCase
         $ans = array_add($ans, 'answer8','1');
 
         $this->actingAs($user);
-        $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'question2' => 2, 'question3' => 3, 'question4' => 4, 'question5' => 5, 'question6' => 6, 'question7' => 7, 'question8' => 8, 'answer' => $ans, 'answered_by' => 'User1']);
+        $response = $this->action('POST', 'SurveyController@activeUserSurveyResponse', ['question1' => 1, 'question2' => 2, 'question3' => 3, 'question4' => 4, 'question5' => 5, 'question6' => 6, 'question7' => 7, 'question8' => 8, 'answer' => $ans, 'name' => 'User1']);
         $this->see('Thank you for submitting the response. Your response has been successfully saved.');
 
         $sa1 = SurveyAnswers::where('survey_quest_id','=',$s1->id)

@@ -553,19 +553,54 @@ select {
 		width: 80%;
 	}
 	.sub-header .col-md-3 img {
-		left: -30px;
+		left: -20px;
 		margin-left: 0px;
 		top: 5px;
 		max-width: inherit;
 		position: absolute;
+		width: 120px;
 	}
+	.navbar-nav>li>a {
+		padding: 30px 10px;
+	}
+	.table th {display: none;}
+	.table td { position: relative; display: table; vertical-align: top; width: 100%; text-align: left;}
+	.table td:before {
+		content: attr(data-title);
+		font-weight: bold;
+	}
+	.table td > div, .table td:before {
+		display:table-cell;
+		text-align: left;
+		padding: 5px 10px;
+		width: 50%;
+	}
+	.table tr {
+		border-bottom:2px solid #9ed070; 
+	}
+	.checkCol {margin: 0px 0px 0px -20px; left: -100%; top:0px;}
+	.pagination {clear: both; float: left; padding-top: 20px;}
+	.btn {margin-bottom: 5px; vertical-align: top;}
+	.btn:last-child {margin-bottom: 0px;}
 }
 @media (max-width: 480px) {
-	.survey-btn {clear: both; float: left;}
+	.survey-btn {clear: both; float: left; margin-bottom: 20px !important;}
+	.ui-selectmenu-button.ui-button {width: 100%;}
 }
 
 /* Red Asterisk */
 .required-label:after {
   content:"*";
   color:red;
+}
+/* progress bar */
+.progress {
+  color: #9ed070;
+  font-size: .6em;
+  line-height: 1.5em;
+  text-indent: .5em;
+  width: 15em;
+  height: 1.8em;
+  border: 1px solid #0063a6;
+  background: #fff;
 }

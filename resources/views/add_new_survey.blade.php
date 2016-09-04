@@ -19,6 +19,7 @@
 					<label class="required-label">Survey Description</label>
 					<input type="text" class="textBox" id="surveyDescription" name="surveyDescription" value="{{ old('surveyDescription') }}"/>
 				</div>
+				<div><b>Answers will be a value between 1 (low / bad) and 10 (high / good)</b></div>
 				<div class="form-row new-question">
 					<label class="qnsLabel required-label">New Question <span class="qns-count">1</span></label>
 					<input type="text" class="textBox" name="question1" value="{{ old('question1') }}"/>
