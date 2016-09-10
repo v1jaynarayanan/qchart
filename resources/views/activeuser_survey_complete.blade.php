@@ -10,7 +10,7 @@
                 {{ session('status') }}
             </div>
         @endif
-         <form class="form-horizontal" role="form" action="{{ url('/submit/activeUserSurveyResponse') }}" method="POST" name="activeUserSubmitSurveyResponseForm" />
+         <form class="form-horizontal" role="form" action="{{ url('/submit/activeUserSurveyResponse') }}" method="POST" name="userSubmitSurveyResponseForm" />
         
             {{ csrf_field() }}
 
@@ -36,6 +36,7 @@
                                 <td><label class="required-label"><label class="qnsLabel">{{ $value->question }} </label><input type="hidden" name="question{{ $i}}" value="{{ $value->qid }}"></label></td>
                                 <td><div class="form-row new-question">
                                         <select class="selectmenu" name="answer[]" id="answer{{ $i }}"> 
+                                                 <option value="" selected="selected"></option>
                                                  <option value="1">1</option>
                                                  <option value="2">2</option>
                                                  <option value="3">3</option>
@@ -63,9 +64,7 @@
             </table> 
             <div><b>If the name is left blank then your response will be sent anonymously.</b></div>
              <div class="group clearfix">
-                <button type="submit" class="btn fR" id="submitBtn">
-                  <i class="fa fa-btn fa-user"></i> Submit Answers
-                </button>
+                <a href="#" class="btn fR" id="submitResponse" onClick="selectValidation(this)">Submit Response</a>
              </div>
              <input type="hidden" name="surveyId" value="{{ $surveyId }}">
         </form>      

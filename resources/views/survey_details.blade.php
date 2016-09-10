@@ -53,7 +53,13 @@
         @if (isset($users) && !empty($users)) 
             @if (isset($surveyQuestions) && !empty($surveyQuestions))
                 <h2>Survey Progress</h2><br>
-                <progress class="progress" value="{{ $numOfResponses }}" max="{{ $sentTo }}"></progress> <BR>
+                <h4>{{ $numOfResponses }}  / {{ $sentTo }} Responses Received</h4>
+                <div class="progress-main">
+                    <div class="progress-bar-div"></div>
+                    <div class="unit-cell"><span>{{ ($numOfResponses / $sentTo) * 100 }}</span>%</div>
+                </div>
+                
+                <br><h2>Survey Questions</h2><br>
                 
                 <table class="table">
                     <tr>
@@ -88,7 +94,11 @@
                             <td>{{ ++$i }}</td>
                             <td>{{ $value->name }}</td>
                             <td>{{ $value->email }}</td>
-                            <td>{{ $value->status == 1 ? 'Responded' : 'Yet to respond' }}</td>
+                            @if ($value->status == 1 )
+                                <td class="success-message">Responded</td>
+                            @else
+                                <td class="error-message">Yet to respond</td>
+                            @endif
                         </tr> 
                         @endforeach  
                     @endforeach
@@ -105,4 +115,13 @@
             </div>
         </div>    
     </div>
+
+    <script>
+        var numOfResponses = <?php echo json_encode($numOfResponses); ?>;
+        var sentTo = <?php echo json_encode($sentTo); ?>;
+        if( numOfResponses != 0 && sentTo != 0) {
+            var percentageValue = (numOfResponses/sentTo)*100; 
+        }
+    </script>
+
 @endsection
