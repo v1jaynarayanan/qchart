@@ -334,7 +334,7 @@ table.table th {
 /********* Table ends here ********/
 
 /******* Pagination starts here *******/
-.pagination {margin: 0px;}
+.pagination {margin: 0px 0px 10px;}
 .pagination li {
 	float: left;
 }
@@ -416,6 +416,22 @@ table.table th {
 	font-weight: 500;
 	padding: 5px 10px;
 }
+.success-message {
+	color: #fff;
+	background-color: #9ed070;
+	display: block;
+	font-weight: 500;
+	padding: 5px 10px;
+}
+
+.info-message {
+	color: #fff;
+	background-color: #406764;
+	display: block;
+	font-weight: 500;
+	padding: 5px 10px;
+}
+
 /* Add new survey */
 .formMainRow {
 	max-width: 500px;
@@ -518,11 +534,62 @@ select {
 	border:1px solid #9ed070;
 }
 .ui-selectmenu-menu .ui-menu {
-	max-height: 120px;
+	line-height: 18px;
 }
 .group.ui-widget {margin-right: 0px; margin-left: 0px;}
 
+.progress-main {
+	height: 20px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	position: relative;
+	padding-right: 50px;
+	z-index: 2;
+}
+.progress-main:after {
+	background-color: white;
+	border-radius: 5px;
+	content: "";
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -1;
+	height: 100%;
+	right: 50px;
+}
+.unit-cell {
+	position: absolute;
+	right: 0px;
+	font-weight: bold;
+	top:-2px;
+}
+.progress-bar-div {
+	background-color: #9ed070;
+	border-radius: 5px;
+	height: inherit;
+}
+
+/* Select option */
+.select-focus {
+	border:1px solid red;
+}
+
 /* Responsive */
+@media (max-width: 767px) {
+	.navbar-nav .open .dropdown-menu {
+		left: auto;
+		position: absolute;
+		right: 0px;
+		text-align: center;
+		background-color: #9ed070;
+	}
+	.navbar-nav .open .dropdown-menu a {
+		color: #fff;
+	}
+	.navbar-nav .open .dropdown-menu a:hover {
+		background-color: #9ed070;
+	}
+}
 @media (max-width: 700px) {
 	h1 {padding-bottom: 30px;}
 	#legend {margin: 0 auto; position: static; top: 0px; padding-top: 20px; text-align: center; width: 200px;}
@@ -592,15 +659,4 @@ select {
 .required-label:after {
   content:"*";
   color:red;
-}
-/* progress bar */
-.progress {
-  color: #9ed070;
-  font-size: .6em;
-  line-height: 1.5em;
-  text-indent: .5em;
-  width: 15em;
-  height: 1.8em;
-  border: 1px solid #0063a6;
-  background: #fff;
 }
