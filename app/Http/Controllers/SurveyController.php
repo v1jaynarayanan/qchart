@@ -310,7 +310,7 @@ class SurveyController extends Controller
        			$emailSent = $this->emailRequest($url, trim($value));
 			}
 			
-			$this->createSurveyResponseRecord($surveyId, $email);
+			$this->createSurveyResponseRecord($surveyId, trim($value));
 		}
 		return view('survey_email_confirmation');
 	}

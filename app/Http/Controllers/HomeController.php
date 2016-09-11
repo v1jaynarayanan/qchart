@@ -73,11 +73,19 @@ class HomeController extends Controller
             //LOG::info($users);
             //LOG::info('Total users invited to fillout survey'.$sentTo);
             //LOG::info('Number of Responses'.$numOfResponses);
+            $responsePercent = 0;
+            if($sentTo == 0 || $numOfResponses == 0) {
+                $responsePercent = 0;
+            }
+            else {
+                $responsePercent = number_format((($numOfResponses/$sentTo) * 100),0);
+            }
             return view('survey_details')->with('surveyDetails', $surveyDetails)
                                          ->with('surveyQuestions', $surveyQuestions)
                                          ->with('users', $users)
                                          ->with('sentTo', $sentTo)
-                                         ->with('numOfResponses', $numOfResponses);     
+                                         ->with('numOfResponses', $numOfResponses)
+                                         ->with('responsePercent', $responsePercent);     
         }
     }
 
@@ -217,9 +225,15 @@ class HomeController extends Controller
     }   
 
     protected function getUserDetailsForSurvey($email){
-        return $user = DB::table('users')
+        $user = DB::table('users')
                     ->join('survey_responses', 'users.email', '=', 'survey_responses.email')
                     ->select('users.name', 'users.email', 'survey_responses.status')
                     ->where('survey_responses.email', '=', $email)->get();
+
+        //user has not responded yet            
+        if(!count($user) > 0) {
+            return $user = SurveyResponses::where('survey_responses.email', '=', $email)->get();
+        } 
+        else return $user;          
     }
 }

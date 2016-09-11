@@ -50,14 +50,14 @@
             @endif        
         </table>
 
-        @if (isset($users) && !empty($users)) 
-            @if (isset($surveyQuestions) && !empty($surveyQuestions))
+        @if (isset($surveyQuestions) && !empty($surveyQuestions))
                 <h2>Survey Progress</h2><br>
                 <h4>{{ $numOfResponses }}  / {{ $sentTo }} Responses Received</h4>
-                <div class="progress-main">
-                    <div class="progress-bar-div"></div>
-                    <div class="unit-cell"><span>{{ ($numOfResponses / $sentTo) * 100 }}</span>%</div>
-                </div>
+                
+                    <div class="progress-main">
+                        <div class="progress-bar-div"></div>
+                        <div class="unit-cell"><span>{{ $responsePercent }}</span>%</div>
+                    </div>
                 
                 <br><h2>Survey Questions</h2><br>
                 
@@ -77,8 +77,10 @@
                         </tr>   
                         @endforeach
                 </table>
-            @endif  
+        @endif  
 
+        @if (isset($users) && !empty($users))
+            
             <h2>Survey Participants</h2><br>    
             <table class="table">
                 <tr>
@@ -117,11 +119,7 @@
     </div>
 
     <script>
-        var numOfResponses = <?php echo json_encode($numOfResponses); ?>;
-        var sentTo = <?php echo json_encode($sentTo); ?>;
-        if( numOfResponses != 0 && sentTo != 0) {
-            var percentageValue = (numOfResponses/sentTo)*100; 
-        }
+        var percentageValue = <?php echo json_encode($responsePercent); ?>;
     </script>
 
 @endsection

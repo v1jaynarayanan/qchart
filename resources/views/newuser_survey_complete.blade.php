@@ -59,19 +59,18 @@
              </table>
              <table class="table">
                 <tr>
-                    <th>Your Name: <input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}"></th>
-                    <th><label class="required-label">Your Email:</label><input id="email" type="email" class="inputMaterial" name="email" value="{{ $email }}" required></th>
+                    <td><label class="required-label">Your Email:</label><input id="email" type="email" class="inputMaterial" name="email" value="{{ $email }}" required readonly></td>
                 </tr>
                 <tr>
+                    <td><input id="name" type="text" class="inputMaterial" name="name" value="{{ old('name') }}">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="name">Name</label>
+                    </td>
                     <td><input id="password" type="password" class="inputMaterial" name="password" required>
                         <span class="highlight"></span>
                         <span class="bar"></span>
                         <label for="password">Password</label>
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
                     </td>
                     </td>
                 </tr>

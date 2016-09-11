@@ -58,8 +58,8 @@
              </table>
              <table class="table">
                 <tr>
-                    <th>Your Name:</th>
-                    <th><input id="name" type="text" class="inputMaterial" name="name" value="{{ Auth::user()->name }}" required></th>
+                    <td>Your Name:</td>
+                    <td><input id="name" type="text" class="inputMaterial" name="name" value="{{ Auth::user()->name }}" required readonly></td>
                 </tr>
             </table> 
             <div><b>If the name is left blank then your response will be sent anonymously.</b></div>
