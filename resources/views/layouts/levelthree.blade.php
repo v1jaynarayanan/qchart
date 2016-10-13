@@ -5,7 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>QChart</title>
+    <meta name="description" content="Use Qchart to create fast and effective online surveys to gather a host of information regarding a particular subject. Signup for free account today." />
+    <meta name="keywords" content="online surveys, free online survey, free online surveys, feedback, free online feedback, questionnaire, questionnaires, questionaire, questionaires" />
+    <title>QChart | Create Free Online Survery | Free Online Survery Tool | Get Feedback online</title>
+
+    <!-- favicon -->
+    <link rel=icon href="../../../images/favicon.png" sizes="16x16" type="image/png">
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -28,7 +33,7 @@
     <header class="sub-header">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3"><img src="../../../images/logo.png" alt="" width="90" /></div>
+                    <div class="col-md-3"><img src="../../../images/logo.png" alt="James Saffron Logo" width="90" /></div>
                     <!-- Right Side Of Navbar -->
                     <div class="col-md-9">
                         <ul class="fR nav navbar-nav navbar-right">

@@ -40,6 +40,9 @@ h3 {
 	font-size: 20px;
 	padding-bottom: 15px;
 }
+h4 {
+	padding-bottom: 10px;
+}
 .fR {float: right;}
 .fL {float: left;}
 .clear {clear: both;}
@@ -429,6 +432,7 @@ table.table th {
 	background-color: #406764;
 	display: block;
 	font-weight: 500;
+	margin-bottom: 10px;
 	padding: 5px 10px;
 }
 
@@ -638,6 +642,7 @@ select {
 	}
 	.table td > div, .table td:before {
 		display:table-cell;
+		word-break:break-all;
 		text-align: left;
 		padding: 5px 10px;
 		width: 50%;
@@ -652,6 +657,7 @@ select {
 }
 @media (max-width: 480px) {
 	.survey-btn {clear: both; float: left; margin-bottom: 20px !important;}
+	td .survey-btn:last-child {margin-bottom: 0px;}
 	.ui-selectmenu-button.ui-button {width: 100%;}
 }
 
