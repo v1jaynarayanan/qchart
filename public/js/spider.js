@@ -156,8 +156,12 @@ $(function () {
         var $th = $(this).parents('.table').find('tr:first-child th').eq($(this).index()).text();
         $(this).attr('data-title', $th);
     });
-    $('.selectmenu').selectmenu();
+    
+    if($('.selectmenu').length > 0) {
+       $('.selectmenu').selectmenu();
+    } 
 });
+
 $(window).load(function () {
     viewportH();
     progressBar();
@@ -214,4 +218,4 @@ function progressBar() {
         });
         $('.unit-cell span').html(percentageValue);
     }
-}       
+} 
