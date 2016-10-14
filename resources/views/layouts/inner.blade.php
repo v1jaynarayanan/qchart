@@ -29,6 +29,7 @@
     </style>
 </head>
 <body class="body-sub" id="app-layout">
+    @include('analyticstracking')
     <header class="sub-header">
             <div class="container">
                 <div class="row">
@@ -64,5 +65,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('../js/app.js') }}"></script> --}}
     <script src="../js/spider.js"></script>   
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57ffbb526238bb93"></script>
 </body>
 </html>
