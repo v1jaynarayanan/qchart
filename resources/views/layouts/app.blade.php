@@ -25,6 +25,7 @@
     </style>
 </head>
 <body class="body-sub" id="app-layout">
+    @include('analyticstracking')
     <header class="sub-header">
             <div class="container">
                 <div class="row">
@@ -61,6 +62,8 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     <script src="js/spider.js"></script>   
    
-    
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57ffbb526238bb93"></script>
+
 </body>
 </html>
