@@ -28,7 +28,7 @@ class DashboardPageTest extends TestCase
 
     $this->actingAs($user)
          ->visit('/home')
-         ->see('Survey Dashboard')
+         ->see('My Surveys')
          ->see('Test Survey 1');
     }
 
@@ -100,7 +100,7 @@ class DashboardPageTest extends TestCase
         
         $this->actingAs($user)
              ->visit('/home')
-             ->see('Survey Dashboard')
+             ->see('My Surveys')
              ->see('Test Survey')
              ->click('Send Survey')
              ->see('Send survey');
@@ -126,9 +126,9 @@ class DashboardPageTest extends TestCase
         
         $this->actingAs($user)
              ->visit('/home')
-             ->see('Survey Dashboard')
+             ->see('My Surveys')
              ->see('Test Survey')
-             ->click('Create New Survey')
+             ->click('Add New Survey')
              ->see('Add New Survey');
     }
 }

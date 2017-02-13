@@ -205,8 +205,8 @@ class HomeController extends Controller
     public function emailRequest($url, $value, $surveyTitle, $labels)
     {
        return Mail::send('email_survey_closed', ['url' => $url, 'surveyTitle' => $surveyTitle, 'questions' => $labels], function ($m) use ($value) {
-                $m->from('noreply@qchart.com', 'QChart');
-                $m->to($value)->subject('QChart - Survey Closed. Please view survey results.');
+                $m->from('noreply@feedback360.co.uk', 'Feedback360');
+                $m->to($value)->subject('Feedback360 - Survey Closed. Please view survey results.');
         }); 
     }
 

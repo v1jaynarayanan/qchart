@@ -18,7 +18,7 @@
             @if (isset($surveyDetails) && !empty($surveyDetails))
                 @foreach ($surveyDetails as $i => $value) 
                     <div class="clearfix">
-                        <h3>Welcome to QChart. Please fill out your answers for the survey:</h3><h2 class="fL">{{ $value->title }}</h2>
+                        <h3>Welcome to Feedback 360. Please fill out your answers for the survey:</h3><h2 class="fL">{{ $value->title }}</h2>
                     </div>
                 @endforeach         
             @endif
@@ -77,7 +77,7 @@
             </table>
             <table>
                 <tr>
-                    <td><b>If the name is left blank then your response will be sent anonymously. Please enter name and password if you wish to register with QChart.</b></td>
+                    <td><b>If the name is left blank then your response will be sent anonymously. Please enter name and password if you wish to register with Feedback 360.</b></td>
                 </tr>
             </table>        
              <div class="group clearfix">

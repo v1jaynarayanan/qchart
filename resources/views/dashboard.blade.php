@@ -3,9 +3,9 @@
 @section('content')
 <div class="container sub-page">
         <div class="clearfix">
-            <h1 class="fL">Survey Dashboard</h1>
+            <h1 class="fL">My Surveys</h1>
             @if (Auth::user()->role_id == 0)
-            <a href="{{URL::to('/')}}/showNewSurveyPage" class="btn survey-btn fR">Create New Survey</a>
+            <a href="{{URL::to('/')}}/showNewSurveyPage" class="btn survey-btn fR">Add New Survey</a>
             @endif
         </div>
         @if (session('status'))

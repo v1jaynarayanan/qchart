@@ -30,7 +30,7 @@ class SurveyDetailsPageTest extends TestCase
         
         $this->actingAs($user)
              ->visit('/home')
-             ->see('Survey Dashboard')
+             ->see('My Surveys')
              ->see('Test Survey')
              ->click('Test Survey')
              ->see('Survey Details');
@@ -122,7 +122,7 @@ class SurveyDetailsPageTest extends TestCase
         
         $this->actingAs($user)
              ->visit('/home')
-             ->see('Survey Dashboard')
+             ->see('My Surveys')
              ->see('Test Survey')
              ->click('Test Survey')
              ->see('SURVEY DETAILS')

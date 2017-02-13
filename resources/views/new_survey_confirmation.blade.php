@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <h1>Create New Survey Confirmation</h1>
+                <h1>Add New Survey Confirmation</h1>
                 <h3>Your new survey has been created successfully.</h3>
 
                  @if (isset($surveyDetails) && !empty($surveyDetails))

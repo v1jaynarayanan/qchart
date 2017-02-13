@@ -11,7 +11,7 @@
 		<a href="{{ $url }}">{{ $url }}</a></h3>
 
 		<h3 style="font-size: 14px; color: #000;">Thanks</h3>
-		<h3 style="font-size: 14px; color: #000;">QChart</h3>	
+		<h3 style="font-size: 14px; color: #000;">Feedback360</h3>	
 
 	</body>
 </html>

@@ -26,7 +26,7 @@ class NewSurveyPageTest extends TestCase
              ->type('Test Survey Description', 'surveyDescription')
              ->type('Test Question 1', 'question1')
              ->press('addNewSurvey')
-             ->see('Create New Survey Confirmation')
+             ->see('Add New Survey Confirmation')
              ->see('Your new survey has been created successfully.');
     
     }    
@@ -50,9 +50,9 @@ class NewSurveyPageTest extends TestCase
         
         $this->actingAs($user)
              ->visit('/home')
-             ->see('Survey Dashboard')
+             ->see('My Surveys')
              ->see('Test Survey')
-             ->click('Create New Survey')
+             ->click('Add New Survey')
              ->see('Add New Survey');
     }
 

@@ -44,7 +44,7 @@ class LoginPageTest extends TestCase
              ->type('newuser1@user.com', 'email')
              ->type('passw0RD', 'password')
              ->press('Login')
-             ->see('Survey Dashboard');
+             ->see('My Surveys');
     }
 
     public function testShouldLoginViaEmailAuthentication(){

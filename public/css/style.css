@@ -104,7 +104,7 @@ table.table th{border-bottom-width:2px;}
 .popBtns .btn{margin-right:5px;width:120px;}
 .sendSurveyForm{max-width:540px;}
 .sendSurveyForm .inputMaterial{background-color:transparent;}
-.remove-question{color:#9ed070;cursor:pointer;position:absolute;right:10px;top:39px;font-size:16px;display:none;}
+.remove-question{color:red;cursor:pointer;position:absolute;right:10px;top:39px;font-size:16px;display:none;}
 .form-row:hover .remove-question{display:block;}
 select:focus{outline:none;}
 select{border:1px solid #406764;padding:3px 5px;min-width:60px;}
