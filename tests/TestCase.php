@@ -40,6 +40,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function testRoot(){
         $this->visit('/')
-             ->see('WELCOME TO QCHART');
+             ->see('WELCOME TO FEEDBACK360');
     }
 }

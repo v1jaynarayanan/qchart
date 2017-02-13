@@ -138,8 +138,8 @@ class AuthController extends Controller
 
         //send off an account verfication email
         return Mail::send('auth.emails.email-login', ['url' => $url], function ($m) use ($request) {
-            $m->from('noreply@qchart.com', 'QChart');
-            $m->to($request->input('email'))->subject('QChart - activate your account');
+            $m->from('noreply@feedback360.co.uk', 'Feedback360');
+            $m->to($request->input('email'))->subject('Feedback360 - activate your account');
          });
     }
 

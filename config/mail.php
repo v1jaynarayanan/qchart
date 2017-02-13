@@ -16,7 +16,9 @@ return [
     |
     */
 
+    //'driver' => 'log', //env('MAIL_DRIVER', 'smtp'),
     'driver' => env('MAIL_DRIVER', 'smtp'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +57,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'vijay.narayanan1112@gmail.com', 'name' => 'Qchart'],
+    'from' => ['address' => 'youremail@id.com', 'name' => 'Feedback 360'],
 
     /*
     |--------------------------------------------------------------------------

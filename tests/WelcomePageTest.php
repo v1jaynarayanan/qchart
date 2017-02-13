@@ -9,7 +9,7 @@ class WelcomePageTest extends TestCase
     public function testWelcomePage()
     {
         $this->visit('/')
-             ->see('WELCOME TO QCHART');
+             ->see('WELCOME TO FEEDBACK360');
     }
 
     public function testShouldShowLoginPage()

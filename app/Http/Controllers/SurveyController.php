@@ -348,8 +348,8 @@ class SurveyController extends Controller
 	public function emailRequest($url, $value)
 	{
        return Mail::send('email_survey_complete', ['url' => $url], function ($m) use ($value) {
-            	$m->from('noreply@qchart.com', 'QChart');
-            	$m->to($value)->subject('QChart - Please complete survey');
+            	$m->from('noreply@feedback360.co.uk', 'Feedback360');
+            	$m->to($value)->subject('Feedback360 - Please complete survey');
        	});	
 	}
 
