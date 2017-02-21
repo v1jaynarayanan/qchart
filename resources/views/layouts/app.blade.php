@@ -9,6 +9,8 @@
                     <title>
                         Feedback 360 | Create Free Online Survery | Free Online Survery Tool | Get Feedback online
                     </title>
+                     <!-- Base Path -->
+                    <base href="/" />
                     <!-- Fonts -->
                     <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" rel="stylesheet">
                         <link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700|Open+Sans:400,600" rel="stylesheet" type="text/css">
@@ -71,7 +73,7 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="">
+                                        <a href="{{ url('/template/5000/') }}">
                                            
                                            Agile Sprint Retrospective Feedback
                                         </a>

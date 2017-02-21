@@ -48,6 +48,9 @@ Route::get('/sendSurvey/{survey}', [
 
 Route::get('/showNewSurveyPage', 'HomeController@showNewSurveyPage');
 
+Route::get('/template/{template_type}/', 'TemplateController@showNewTemplateSurveyPage');
+
+
 Route::post('/survey/sendEmail', [
 	'as' => 'survey.sendemail',  
 	'uses' => 'SurveyController@sendSurveyEmail'
