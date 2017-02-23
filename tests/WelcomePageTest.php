@@ -12,6 +12,10 @@ class WelcomePageTest extends TestCase
              ->see('WELCOME TO FEEDBACK360');
     }
 
+
+
+
+
     public function testShouldShowLoginPage()
     {
         $this->visit('/')
@@ -27,4 +31,7 @@ class WelcomePageTest extends TestCase
              ->seePageIs('/register')
              ->see('Register');
     }
+
+ 
+
 }

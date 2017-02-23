@@ -490,6 +490,8 @@ table.table th {
     position: relative;
     height: 1px;
     z-index: 10;
+        max-height: 400px;
+        min-height: 400px;
 }
 
 .bg-frame:before {
@@ -502,17 +504,22 @@ table.table th {
     bottom: 0px;
     z-index: -1;
     content: "";
+
 }
 
 .table-row {
-    display: table;
-    height: inherit;
-    max-width: 540px;
+    display: block;
+    height: auto;
+    max-width: 100%;
     margin: 0 auto;
+    position: absolute;
+    width: 100%;
+    margin-top: 5%;
 }
 
+
 .bg-frame .sub-page {
-    display: table-cell;
+    display: block;
     color: #fff;
     text-align: center;
     padding: 0px 15px;
@@ -882,12 +889,15 @@ select {
     border: 7px solid white;
     line-height: 88px;
     border-radius: 50%;
-    background: #9ed070;
+
+    background: orange;
+  /*  background: #9ed070;*/
     vertical-align: middle;
 }
 
 .box>.icon>.image>i {
     font-size: 40px !important;
+
     color: #fff !important;
 }
 
@@ -920,3 +930,9 @@ select {
 .box .space {
     height: 30px;
 }
+
+
+.mar25 {
+    margin-top: 25px;
+
+    }

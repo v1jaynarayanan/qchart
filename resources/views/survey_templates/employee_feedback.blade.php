@@ -115,32 +115,7 @@
                     </i>
                 </span>
             </div>
-            <div class="form-row new-question">
-                <label class="qnsLabel required-label">
-                    Question
-                    <span class="qns-count">
-                        8
-                    </span>
-                </label>
-                         <input class="textBox" name="question8" type="text" value=" {{ !empty(old('question8')) ? old('question8') : 'Test Survey Question 8' }}"/>
-                <span class="remove-question">
-                    <i aria-hidden="true" class="fa fa-times">
-                    </i>
-                </span>
-            </div>
-            <div class="form-row new-question">
-                <label class="qnsLabel required-label">
-                    Question
-                    <span class="qns-count">
-                        9
-                    </span>
-                </label>
-                       <input class="textBox" name="question9" type="text" value=" {{ !empty(old('question9')) ? old('question9') : 'Test Survey Question 9' }}"/>
-                <span class="remove-question">
-                    <i aria-hidden="true" class="fa fa-times">
-                    </i>
-                </span>
-            </div>
+          
             <div id="addNewQuestionDiv">
                 <a href="javascript:void(0);" id="addNewQuestion">
                     <i aria-hidden="true" class="fa fa-plus-circle">
@@ -155,7 +130,8 @@
     </form>
 </div>
 <script type="text/javascript">
-    var template_count = 2;
-		var template_countLimit = 10;
+ // setup js count
+    var template_count = 7;
+	var template_countLimit = 8; 
 </script>
 @endsection

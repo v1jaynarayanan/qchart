@@ -66,44 +66,46 @@
                            
                             @endif
                             <li class="dropdown">
-                                <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                     Forms Category
                                     <span class="caret">
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ url('/template/5000/') }}">
+                                        <a href="{{ url('/template/agile-sprint-retrospective-feedback/') }}">
                                            
                                            Agile Sprint Retrospective Feedback
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="{{ url('/template/team-assessment-feedback/') }}">
                                           
                                             Team Assessment Feedback
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="{{ url('/template/employee-feedback/') }}">
                                            
                                             Employee Feedback
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="{{ url('/template/customer-satisfaction-feedback/') }}">
                                             
                                             Customer Satisfaction Feedback
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                            <a href="{{ url('/template/event-planning-feedback/') }}">
                                            
                                             Event Planning Feedback
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+
+                                        <a href="{{ url('/template/market-research-feedback/') }}">
+
                                           
                                             Market Research Feedback
                                         </a>

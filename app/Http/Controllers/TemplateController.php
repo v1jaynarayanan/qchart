@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Auth\AuthController;
-use Auth;
-use Mail;
-use DB;
-use Log;
-
 class TemplateController extends Controller
 {
-  
-  	 /**
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -23,10 +15,16 @@ class TemplateController extends Controller
         $this->middleware('auth');
     }
 
-
     public function showNewTemplateSurveyPage($template_type)
     {
-        // print_r($template_id);
-        return view('add_new_survey_from_template');
+
+        try
+        {
+            $template_type = str_replace("-", "_", $template_type);
+            return view('survey_templates.' . $template_type);
+        } catch (\Exception $e) {
+            abort(404);
+        }
+
     }
 }
