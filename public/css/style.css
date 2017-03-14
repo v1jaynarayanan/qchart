@@ -890,8 +890,7 @@ select {
     line-height: 88px;
     border-radius: 50%;
 
-    background: orange;
-  /*  background: #9ed070;*/
+    background: #9ed070;
     vertical-align: middle;
 }
 
@@ -921,7 +920,7 @@ select {
 }
 
 .box>.icon>.info>.more a {
-    color: #222;
+    color: orange;
     line-height: 12px;
     text-transform: uppercase;
     text-decoration: none;

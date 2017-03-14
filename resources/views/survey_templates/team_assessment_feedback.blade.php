@@ -3,7 +3,7 @@
 @section('content')
 <div class="container sub-page">
     <h1>
-        Add New Survey
+        Team Assessment
     </h1>
     @if (session('status'))
     <div class="alert alert-success">
@@ -35,7 +35,7 @@
                         1
                     </span>
                 </label>
-                <input class="textBox" name="question1" type="text" value=" {{ !empty(old('question1')) ? old('question1') : 'Test Survey Question 1' }}"/>
+                <input class="textBox" name="question1" type="text" value=" {{ !empty(old('question1')) ? old('question1') : 'Do you think the team produced value to business?' }}"/>
             </div>
             <div class="form-row new-question">
                 <label class="qnsLabel required-label">
@@ -44,7 +44,7 @@
                         2
                     </span>
                 </label>
-                          <input class="textBox" name="question2" type="text" value=" {{ !empty(old('question2')) ? old('question2') : 'Test Survey Question 2' }}"/>
+                          <input class="textBox" name="question2" type="text" value=" {{ !empty(old('question2')) ? old('question2') : 'Did the team welcome changes to requirements?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
@@ -57,7 +57,7 @@
                         3
                     </span>
                 </label>
-                       <input class="textBox" name="question3" type="text" value=" {{ !empty(old('question3')) ? old('question3') : 'Test Survey Question 3' }}"/>
+                       <input class="textBox" name="question3" type="text" value=" {{ !empty(old('question3')) ? old('question3') : 'How well do you think the team colloborated?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
@@ -70,7 +70,7 @@
                         4
                     </span>
                 </label>
-                        <input class="textBox" name="question4" type="text" value=" {{ !empty(old('question4')) ? old('question4') : 'Test Survey Question 4' }}"/>
+                        <input class="textBox" name="question4" type="text" value=" {{ !empty(old('question4')) ? old('question4') : 'Did the team members trust each other?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
@@ -83,7 +83,7 @@
                         5
                     </span>
                 </label>
-                        <input class="textBox" name="question5" type="text" value=" {{ !empty(old('question5')) ? old('question5') : 'Test Survey Question 5' }}"/>
+                        <input class="textBox" name="question5" type="text" value=" {{ !empty(old('question5')) ? old('question5') : 'Was there enough face to face communication with in the team?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
@@ -96,7 +96,7 @@
                         6
                     </span>
                 </label>
-                      <input class="textBox" name="question6" type="text" value=" {{ !empty(old('question6')) ? old('question6') : 'Test Survey Question 6' }}"/>
+                      <input class="textBox" name="question6" type="text" value=" {{ !empty(old('question6')) ? old('question6') : 'Does the team focus on achieving technical excellence?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
@@ -109,13 +109,25 @@
                         7
                     </span>
                 </label>
-                      <input class="textBox" name="question7" type="text" value=" {{ !empty(old('question7')) ? old('question7') : 'Test Survey Question 7' }}"/>
+                      <input class="textBox" name="question7" type="text" value=" {{ !empty(old('question7')) ? old('question7') : 'Did the team reflect on its performance?' }}"/>
                 <span class="remove-question">
                     <i aria-hidden="true" class="fa fa-times">
                     </i>
                 </span>
             </div>
-          
+            <div class="form-row new-question">
+                <label class="qnsLabel required-label">
+                    Question
+                    <span class="qns-count">
+                        8
+                    </span>
+                </label>
+                      <input class="textBox" name="question8" type="text" value=" {{ !empty(old('question8')) ? old('question8') : 'Do you think the team is self organised?' }}"/>
+                <span class="remove-question">
+                    <i aria-hidden="true" class="fa fa-times">
+                    </i>
+                </span>
+            </div>
             <div id="addNewQuestionDiv">
                 <a href="javascript:void(0);" id="addNewQuestion">
                     <i aria-hidden="true" class="fa fa-plus-circle">
@@ -131,7 +143,7 @@
 </div>
 <script type="text/javascript">
  // setup js count
-    var template_count = 7;
+    var template_count = 8;
     var template_countLimit = 8; 
 </script>
 @endsection

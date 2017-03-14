@@ -1,47 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <div class="container mar25">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading">
-                Welcome to Feedback360
-            </h2>
-    <div class="break_divider"></div>
-            <h3 class="section-heading">
-                Feedback360 is a free, simple and fast tool that helps you to
-            </h3>
-       <div class="break_divider"></div>
-            <ul class="common-list">
-                    <li>
-                        <h4>
-                            Create an effective survey online
-                        </h4>
-                    </li>
-                    <li>
-                        <h4>
-                            Send the survey to recipients to gather information
-                        </h4>
-                    </li>
-                    <li>
-                        <h4>
-                            Analyse data using a spider graph
-                        </h4>
-                    </li>
-                </ul>
-        </div>
-    </div>
-</div> -->
 <section>
     <div class="bg-frame">
         <div class="table-row">
             <div class="sub-page">
-                <h1>
-                    Welcome to Feedback360
-                </h1>
                 <h2>
-
-
                     Feedback360 is a free, simple and fast tool that helps you to
                 </h2>
                 <br/>
@@ -77,7 +41,7 @@
             </h2>
             <br/>
             <h3 class="section-heading">
-                Check out our pre-build feedback form templates and questions
+                Check out our pre-built feedback templates and questions
             </h3>
             <br/>
         </div>
@@ -95,10 +59,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/agile-sprint-retrospective-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>
@@ -121,10 +85,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/team-assessment-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>
@@ -147,10 +111,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/employee-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>
@@ -175,10 +139,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/customer-satisfaction-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>
@@ -201,10 +165,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/event-planning-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>
@@ -227,10 +191,10 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="#" title="">
+                            <a href="{{ url('/template/market-research-feedback/') }}" title="">
                                 <i class="fa fa-plus">
                                 </i>
-                                Use This
+                                Try This
                             </a>
                         </div>
                     </div>

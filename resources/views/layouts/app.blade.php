@@ -67,7 +67,7 @@
                             @endif
                             <li class="dropdown">
                                 <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    Forms Category
+                                    Templates
                                     <span class="caret">
                                     </span>
                                 </a>

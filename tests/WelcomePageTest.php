@@ -9,7 +9,7 @@ class WelcomePageTest extends TestCase
     public function testWelcomePage()
     {
         $this->visit('/')
-             ->see('WELCOME TO FEEDBACK360');
+             ->see('Feedback360 is a free, simple and fast tool that helps you to');
     }
 
 

@@ -6,7 +6,7 @@ class TemplateFeedBackTest extends TestCase
     public function testFormsCategoryMenu()
     {
         $this->visit('/')
-            ->see('Forms Category');
+            ->see('Templates');
     }
 
     public function testCategoryClickLoginPageasGuest()
@@ -62,9 +62,9 @@ class TemplateFeedBackTest extends TestCase
             ->see('ADD NEW SURVEY');
 
         $this->visit('/')
-            ->click('Agile Sprint Retrospective Feedback')->see('ADD NEW SURVEY');
+            ->click('Agile Sprint Retrospective Feedback')->see('Agile Sprint Retrospective');
         $this->visit('/')
-            ->click('Team Assessment Feedback')->see('ADD NEW SURVEY');
+            ->click('Team Assessment Feedback')->see('Team Assessment');
         $this->visit('/')
             ->click('Employee Feedback')->see('ADD NEW SURVEY');
         $this->visit('/')
@@ -93,8 +93,8 @@ class TemplateFeedBackTest extends TestCase
             ->type('newuser1@test.com', 'email')
             ->type('google', 'password')
             ->press('Login')
-            ->see('ADD NEW SURVEY')
-            ->see('Question 7');
+            ->see('Agile Sprint Retrospective')
+            ->see('Do you think the team delivered all stories as per Sprint commitment?');
 
         $this->visit('/')
             ->click('Logout')->see('login');
@@ -105,8 +105,8 @@ class TemplateFeedBackTest extends TestCase
             ->type('newuser1@test.com', 'email')
             ->type('google', 'password')
             ->press('Login')
-            ->see('ADD NEW SURVEY')
-            ->see('Question 7');
+            ->see('Team Assessment')
+            ->see('Do you think the team produced value to business?');
 
 
         $this->visit('/')
