@@ -40,6 +40,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function testRoot(){
         $this->visit('/')
-             ->see('WELCOME TO FEEDBACK360');
+             ->see('Feedback360 is a free, simple and fast tool that helps you to');
     }
 }
