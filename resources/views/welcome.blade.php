@@ -59,8 +59,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/agile-sprint-retrospective-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/agile-sprint-retrospective-feedback/preview') }}" id="Preview1" title="">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/agile-sprint-retrospective-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>
@@ -85,8 +90,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/team-assessment-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/team-assessment-feedback/preview') }}" id="Preview2" title="">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/team-assessment-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>
@@ -111,8 +121,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/employee-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/employee-feedback/preview') }}" title="" id="Preview3">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/employee-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>
@@ -123,8 +138,6 @@
                 </div>
             </div>
         </div>
-
- 
         <div class="col-xs-12 col-sm-6 col-lg-4">
             <div class="box">
                 <div class="icon">
@@ -139,8 +152,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/customer-satisfaction-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/customer-satisfaction-feedback/preview') }}" id="Preview4" title="">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/customer-satisfaction-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>
@@ -165,8 +183,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/event-planning-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/event-planning-feedback/preview') }}" id="Preview5" title="">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/event-planning-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>
@@ -191,8 +214,13 @@
                         <p>
                         </p>
                         <div class="more">
-                            <a href="{{ url('/template/market-research-feedback/') }}" title="">
-                                <i class="fa fa-plus">
+                            <a class="preview_a_r" target="_blank" href="{{ url('/template/market-research-feedback/preview') }}" id="Preview6" title="">
+                                <i class="fa fa-eye">
+                                </i>
+                                Preview
+                            </a>
+                            <a class="preview_a_l" href="{{ url('/template/market-research-feedback/') }}" title="">
+                                <i class="fa fa-external-link">
                                 </i>
                                 Try This
                             </a>

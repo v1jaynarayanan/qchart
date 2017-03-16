@@ -52,7 +52,18 @@ Route::get('/showNewSurveyPage', 'HomeController@showNewSurveyPage');
 Route::get('/template/{template_type}/', [
   'as' => 'survey.template_type',  
   'uses' => 'TemplateController@showNewTemplateSurveyPage'
+])->middleware('auth');
+
+Route::get('/template/{template_type}/preview', [
+  'as' => 'survey.template_type',  
+  'uses' => 'TemplateController@showPreviewTemplateSurveyPage'
 ]);
+
+
+
+
+
+
 
 
 Route::post('/survey/sendEmail', [

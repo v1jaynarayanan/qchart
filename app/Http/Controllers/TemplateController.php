@@ -12,7 +12,7 @@ class TemplateController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+      
     }
 
     public function showNewTemplateSurveyPage($template_type)
@@ -20,11 +20,29 @@ class TemplateController extends Controller
 
         try
         {
+
             $template_type = str_replace("-", "_", $template_type);
             return view('survey_templates.' . $template_type);
+
         } catch (\Exception $e) {
             abort(404);
         }
 
     }
+
+    public function showPreviewTemplateSurveyPage($template_type)
+    {
+
+        try {
+
+            $template_type = str_replace("-", "_", $template_type);
+
+            return view('survey_preview_templates.' . $template_type);
+
+        } catch (\Exception $e) {
+            abort(404);
+        }
+
+    }
+
 }

@@ -935,3 +935,20 @@ select {
     margin-top: 25px;
 
     }
+
+ .preview_a_r
+ {
+/*    width: 50%;
+    display: block;
+    float: left;*/
+}
+
+ .preview_a_l
+ {
+
+    width: 45%;
+    display: block;
+    float: right;
+    margin-top: 5px;
+
+}
