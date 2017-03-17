@@ -1,9 +1,8 @@
 
-
-                        <div class="header-cont">
+<div class="header-cont">
      <div>
-                <a href="/template/{{$link}}"  class="btn" >Try This</a>
-             </div>
+            <a href="/template/{{$link}}"  class="btn" >Try This</a>
+     </div>
 </div>    
 
 
@@ -25,10 +24,6 @@
     padding: 0px;
     left: 83%;
 }
-   /* .sub-header, .addthis-smartlayers
-    {
-        display: none;
-    }*/
 
 
 </style>
