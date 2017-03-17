@@ -1,7 +1,7 @@
 
 <div class="header-cont">
      <div>
-            <a href="/template/{{$link}}"  class="btn" >Try This</a>
+            <a href="/qchart/public/template/{{$link}}"  class="btn" >Try This</a>
      </div>
 </div>    
 
