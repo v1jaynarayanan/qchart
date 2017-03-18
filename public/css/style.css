@@ -490,8 +490,8 @@ table.table th {
     position: relative;
     height: 1px;
     z-index: 10;
-        max-height: 250px;
-        min-height: 250px;
+        max-height: 275px;
+        min-height: 275px;
 }
 
 .bg-frame:before {
